@@ -9,7 +9,7 @@
         <module name="rec_01_group_05" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="rec_01_group_05" target="1.8" />
     </bytecodeTargetLevel>
   </component>

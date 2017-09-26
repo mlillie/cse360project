@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,7 +87,7 @@ public class LoginSystem extends JFrame implements ActionListener {
                     String pass = line.split(":")[1];
                     System.out.println("user: " + user);
                     System.out.println("pass: " + pass);
-                    users.put(user, pass);
+                    users.put(user.toLowerCase(), pass);
                 }
 
                 bufferedReader.close();
@@ -131,6 +133,7 @@ public class LoginSystem extends JFrame implements ActionListener {
                     SwingUtilities.invokeLater(Universe::new);
                     if(rememberMe.isSelected()) {
                         //TODO write locally to the OS, the user and password that has been hashed? and then try to read it on startup
+
                     }
                     dispose();
                 } else {
@@ -143,7 +146,35 @@ public class LoginSystem extends JFrame implements ActionListener {
         } else if (source.equals(exit)) {
             dispose();
         } else if (source.equals(signUp)) {
-            //TODO
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
+
+            if (username == null || password.length() == 0) {
+                JOptionPane.showMessageDialog(this, "You must enter a username and password to sign-up with!");
+                return;
+            }
+
+            //TODO check validity of the username or password?
+
+            if(users.get(username.toLowerCase()) != null) {
+                JOptionPane.showMessageDialog(this,"That username already exists!");
+                return;
+            }
+
+            StringBuilder builder = new StringBuilder();
+            builder.append(System.lineSeparator()).append(username).append(":").append(password);
+
+            try {
+                Files.write(usersFile.toPath(), builder.toString().getBytes(), StandardOpenOption.APPEND);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } finally {
+                users.put(username.toLowerCase(), password);
+                JOptionPane.showMessageDialog(this,"Successfully created the user: " + username);
+            }
+
+
         }
     }
+
 }
