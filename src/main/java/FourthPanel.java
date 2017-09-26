@@ -40,6 +40,11 @@ public class FourthPanel extends TutoringPanel {
         }
     }
 
+    @Override
+    public void onLogout() {
+
+    }
+
     /**
      * Overriding the paint component method in order to add a
      * @param graphics The graphics being used to paint the component.

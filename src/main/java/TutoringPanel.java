@@ -14,4 +14,9 @@ public abstract class TutoringPanel extends JPanel {
      * @param state The current state of the panel.
      */
     public abstract void update(int state);
+
+    /**
+     * This will be ran when the user has decided to logout.
+     */
+    public abstract void onLogout();
 }

@@ -4,6 +4,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,9 +48,16 @@ public class Universe extends JFrame implements ChangeListener {
     private int panelState = 0;
 
     /**
+     * The current user signed into the ITS.
+     */
+    private final String currentUser;
+
+    /**
      * Creates a new Universe JFrame object.
      */
-    Universe() {
+    Universe(String currentUser) {
+        //Set current user and make first character uppercase for looks
+        this.currentUser = currentUser.substring(0, 1).toUpperCase() + currentUser.substring(1);
         // The look and feel for the frame, which will change depending on the OS.
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -61,6 +72,38 @@ public class Universe extends JFrame implements ChangeListener {
         setMaximumSize(MAXIMUM_RESOLUTION);
         setLayout(new BorderLayout());
         setTitle("Java Tutor Deluxe");
+
+        // Menu bar stuff atm
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
+
+        JMenu userMenu = new JMenu(this.currentUser);
+        fileMenu.add(userMenu);
+
+        JMenuItem logoutItem = new JMenuItem("Logout");
+        userMenu.add(logoutItem);
+
+        JMenuItem saveItem = new JMenuItem("Save");
+        fileMenu.add(saveItem);
+        saveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+
+        JMenuItem exitItem = new JMenuItem("Exit");
+        fileMenu.add(exitItem);
+
+        saveItem.addActionListener(e -> JOptionPane.showMessageDialog(Universe.this, "Saved!"));
+
+        exitItem.addActionListener(e -> System.exit(0));
+
+        logoutItem.addActionListener(e -> {
+            tutoringPanels.forEach(TutoringPanel::onLogout);
+            dispose();
+            SwingUtilities.invokeLater(LoginSystem::new);
+        });
+
+        add(menuBar, BorderLayout.NORTH);
+
 
         // This middle panel will contain the other 4 panels within it.
         JPanel middlePanel = new JPanel(new GridLayout(2, 2));
@@ -137,7 +180,7 @@ public class Universe extends JFrame implements ChangeListener {
 
     public static void main(String[] args) {
         //Using this to ensure that this will run on the AWT dispatch thread.
-        SwingUtilities.invokeLater(Universe::new);
+        SwingUtilities.invokeLater(() -> new Universe("Test User"));
     }
 
 }

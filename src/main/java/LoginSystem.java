@@ -43,7 +43,7 @@ public class LoginSystem extends JFrame implements ActionListener {
     /**
      * This map will hold all the users; Key = username, Value = password in base64
      */
-    private Map<String, String> users = new HashMap<>();
+    private final Map<String, String> users = new HashMap<>();
 
     /**
      * The Path to the remember me text file.
@@ -60,7 +60,7 @@ public class LoginSystem extends JFrame implements ActionListener {
     /**
      * Creation of the login system starts here
      */
-    private LoginSystem() {
+    public LoginSystem() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
@@ -125,7 +125,6 @@ public class LoginSystem extends JFrame implements ActionListener {
 
         // Attempt to read the remember me file, if it exists.
         if(Files.exists(REMEMBER_ME_PATH)) {
-
             //The remember me file exists, so ensure that the box will be checked.
             rememberMe.setSelected(true);
 
@@ -163,7 +162,6 @@ public class LoginSystem extends JFrame implements ActionListener {
             }
         }
 
-
         pack();
         setVisible(true);
     }
@@ -172,22 +170,22 @@ public class LoginSystem extends JFrame implements ActionListener {
      * Attempts to allow the user to login into the ITS.
      */
     private void attemptLogin() {
-        String username = usernameField.getText();
+        final String initialUsername = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        if(username == null || password.length() == 0) {
+        if(initialUsername == null || password.length() == 0) {
             JOptionPane.showMessageDialog(this,"You must enter a username and password!");
             return;
         }
 
         String base64Password = new String(Base64.getEncoder().encode(password.getBytes()));
 
-        username = username.toLowerCase();
+        String username = initialUsername.toLowerCase();
 
         if(users.containsKey(username)) {
             if(users.get(username).equals(base64Password)) {
                 //User and password have been authenticated, start the ITS.
-                SwingUtilities.invokeLater(Universe::new);
+                SwingUtilities.invokeLater(() -> new Universe(username));
 
                 //Remember me checks.
                 if(rememberMe.isSelected()) {
@@ -247,7 +245,7 @@ public class LoginSystem extends JFrame implements ActionListener {
         } catch (IOException e1) {
             e1.printStackTrace();
         } finally {
-            users.put(username.toLowerCase(), password);
+            users.put(username.toLowerCase(), base64Password);
             JOptionPane.showMessageDialog(this,"Successfully created the user: " + username);
         }
     }
@@ -263,7 +261,6 @@ public class LoginSystem extends JFrame implements ActionListener {
         } else if (source.equals(signUp)) {
             attemptSignup();
         } else if (source.equals(exit)) {
-            dispose();
             System.exit(0);
         }
     }
