@@ -145,6 +145,7 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
 
     @Override
     public void onLogout() {
+        //Have to make sure the timer stops on logout other wise the thread will still be running in the background.
         animationTimer.stop();
     }
 

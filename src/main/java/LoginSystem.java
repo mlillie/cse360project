@@ -48,7 +48,7 @@ public class LoginSystem extends JFrame implements ActionListener {
     /**
      * The Path to the remember me text file.
      */
-    private final static Path REMEMBER_ME_PATH = Paths.get(System.getProperty("user.home") + File.separator + "Documents" +
+    private final static Path REMEMBER_ME_PATH = Paths.get(System.getProperty("user.home") + File.separator + "JavaTutorDeluxe" +
             File.separator + "jtdremember.txt");
 
     /**
@@ -189,6 +189,18 @@ public class LoginSystem extends JFrame implements ActionListener {
 
                 //Remember me checks.
                 if(rememberMe.isSelected()) {
+
+                    //Create the directory if it does not exist
+                    if(!Files.exists(REMEMBER_ME_PATH.getParent())) {
+                        try {
+                            Files.createDirectory(REMEMBER_ME_PATH.getParent());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    //Write to the remember me file, creating the file if it does not exist
+                    //If the file has content within it, delete all the bytes within it and start fresh
                     byte[] data = (username + ":" + base64Password).getBytes();
 
                     try (OutputStream out = new BufferedOutputStream(
@@ -197,6 +209,7 @@ public class LoginSystem extends JFrame implements ActionListener {
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
+
                 } else {
                     //If the remember me is not checked, then we can see if the file exists, if so, delete it.
                     if(Files.exists(REMEMBER_ME_PATH)) {
@@ -230,7 +243,7 @@ public class LoginSystem extends JFrame implements ActionListener {
 
         String base64Password = new String(Base64.getEncoder().encode(password.getBytes()));
 
-        //TODO check validity of the username or password? like invalid characters or inappropriate name?
+        //TODO check validity of the username or password? like invalid characters or inappropriate name, too short, etc
 
         if(users.get(username.toLowerCase()) != null) {
             JOptionPane.showMessageDialog(this,"That username already exists!");
