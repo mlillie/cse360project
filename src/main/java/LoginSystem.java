@@ -14,6 +14,7 @@ import java.nio.file.*;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 
 /**
@@ -22,6 +23,7 @@ import java.util.Map;
  * - Sign-up functionality, saves to the users text file.
  * - Remember me reads and writes to the users local documents directory.
  * - Passwords are encoded and decoded in base 64, for a very small amount of security.
+ * - Username and password validation
  *
  * @author Matt Lillie
  * @version 09/26/17
@@ -53,6 +55,26 @@ public class LoginSystem extends JFrame implements ActionListener {
      */
     private final static Path USERS_PATH = Paths.get(LoginSystem.class.getResource("users.txt").getPath().
             replaceFirst("^/(.:/)", "$1"));
+
+    /**
+     * This is the pattern which is used to see if a username has proper characters in it.
+     */
+    private final static Pattern USERNAME_PATTERN = Pattern.compile("[A-Za-z0-9_]+"); // just a - z, 0 - 9, and underscores
+
+    /**
+     * This is the pattern which is used to see if a password has proper characters in it.
+     */
+    private final static Pattern PASSWORD_PATTERN = Pattern.compile("[\\w\\Q!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\\E]+");
+
+    /**
+     * The minimum length of a username.
+     */
+    private static final int MINIMUM_USERNAME_LENGTH = 3;
+
+    /**
+     * The minimum length of a password.
+     */
+    private static final int MINIMUM_PASSWORD_LENGTH = 8;
 
     /**
      * Creation of the login system starts here
@@ -252,14 +274,18 @@ public class LoginSystem extends JFrame implements ActionListener {
             return;
         }
 
-        String base64Password = new String(Base64.getEncoder().encode(password.getBytes()));
-
-        //TODO check validity of the username or password? like invalid characters or inappropriate name, too short, etc
-
-        if(users.get(username.toLowerCase()) != null) {
-            JOptionPane.showMessageDialog(this,"That username already exists!");
+        //Check username validity.
+        if(!checkUsernameValidity(username)) {
             return;
         }
+
+        //Check password validity.
+        if(!checkPasswordValidity(password)) {
+            return;
+        }
+
+        String base64Password = new String(Base64.getEncoder().encode(password.getBytes()));
+
 
         byte[] data = (System.lineSeparator() + username + ":" + base64Password).getBytes();
 
@@ -272,6 +298,57 @@ public class LoginSystem extends JFrame implements ActionListener {
             users.put(username.toLowerCase(), base64Password);
             JOptionPane.showMessageDialog(this,"Successfully created the user: " + username);
         }
+    }
+
+    /**
+     * Checks the validity of the username, by making sure it has an appropriate length, does not already exist, and has valid characters.
+     * @param username The username to be checked.
+     * @return True if the username is valid.
+     */
+    private boolean checkUsernameValidity(String username) {
+
+        // Username length check.
+        if(username.length() < MINIMUM_USERNAME_LENGTH) {
+            JOptionPane.showMessageDialog(this, "Your username must contain at least "+ MINIMUM_USERNAME_LENGTH+" characters!");
+            return false;
+        }
+
+        // Make sure the username has valid characters using Pattern class.
+        if(!USERNAME_PATTERN.matcher(username).matches()) {
+            JOptionPane.showMessageDialog(this, "Your username must contain valid characters!");
+            return false;
+        }
+
+        // Make sure username does not already exist.
+        if(users.get(username.toLowerCase()) != null) {
+            JOptionPane.showMessageDialog(this,"That username already exists!");
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+    /**
+     * Checks the validity of the password, by making sure it has an appropriate length, and has valid characters.
+     * @param password The password to be checked.
+     * @return True if the password is valid.
+     */
+    private boolean checkPasswordValidity(String password) {
+        // Password length check.
+        if(password.length() < MINIMUM_PASSWORD_LENGTH) {
+            JOptionPane.showMessageDialog(this, "Your password must contain at least "+ MINIMUM_PASSWORD_LENGTH+" characters!");
+            return false;
+        }
+
+        // Make sure the password has valid characters using Pattern class.
+        if(!PASSWORD_PATTERN.matcher(password).matches()) {
+            JOptionPane.showMessageDialog(this, "Your password must contain valid characters!");
+            return false;
+        }
+
+        return true;
     }
 
     @Override

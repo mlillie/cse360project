@@ -37,7 +37,7 @@ public class Universe extends JFrame implements ChangeListener {
      * The preferred resolution of the frame.
      */
     private static final Dimension PREFERRED_RESOLUTION = new Dimension((int)((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 1.5),
-            (int) ((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 1.3)); //720
+            (int) ((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 1.3)); // Should be different for each screen size, hopefully.
 
     /**
      * The maximum resolution of the frame.
@@ -58,8 +58,6 @@ public class Universe extends JFrame implements ChangeListener {
      * Creates a new Universe JFrame object.
      */
     Universe(String currentUser) {
-        //Set current user and make first character uppercase for looks
-        this.currentUser = currentUser.substring(0, 1).toUpperCase() + currentUser.substring(1);
         // The look and feel for the frame, which will change depending on the OS.
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -67,6 +65,8 @@ public class Universe extends JFrame implements ChangeListener {
             System.out.println("Error attempting to set the look and feel to the OS.");
         }
 
+        //Set current user and make first character uppercase for looks
+        this.currentUser = currentUser.substring(0, 1).toUpperCase() + currentUser.substring(1);
 
         // Setting default options, sizes, title, etc
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -118,6 +118,7 @@ public class Universe extends JFrame implements ChangeListener {
 
         // Create all the other panels with new anim
         TutoringPanel firstPanel = new AnimatedCompanion();
+
         firstPanel.setBorder(PANEL_BORDER);
 
         TutoringPanel secondPanel = new Tutor();
