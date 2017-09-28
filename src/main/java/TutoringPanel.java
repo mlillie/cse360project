@@ -16,7 +16,12 @@ public abstract class TutoringPanel extends JPanel {
     public abstract void update(int state);
 
     /**
-     * This will be ran when the user has decided to logout.
+     * This will be called when the user has decided to logout.
      */
     public abstract void onLogout();
+
+    /**
+     * This will be called when the user has called for the program to be saved.
+     */
+    public abstract void onSave();
 }

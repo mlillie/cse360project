@@ -74,6 +74,11 @@ public class Tutor extends TutoringPanel {
 
 	}
 
+	@Override
+	public void onSave() {
+
+	}
+
 	/**
 	 * this reads a string from the filename parameter, creates a document with the string, and uses HTMLEditorKit to display it.
 	 * @param filename - string location of file.

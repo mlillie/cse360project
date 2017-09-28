@@ -1,3 +1,5 @@
+import com.sun.deploy.util.SystemUtils;
+
 import static java.nio.file.StandardOpenOption.*;
 
 
@@ -36,11 +38,6 @@ public class LoginSystem extends JFrame implements ActionListener {
     private JPasswordField passwordField;
 
     /**
-     * The preferred resolution of the frame.
-     */
-    private static final Dimension PREFERRED_RESOLUTION = new Dimension(350, 170);
-
-    /**
      * This map will hold all the users; Key = username, Value = password in base64
      */
     private final Map<String, String> users = new HashMap<>();
@@ -69,9 +66,9 @@ public class LoginSystem extends JFrame implements ActionListener {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
-        setPreferredSize(PREFERRED_RESOLUTION);
-        setResizable(false);
-        setLayout(new BorderLayout());
+        setResizable(true);
+        setPreferredSize(calculatePreferredDimension());
+        setLayout(new GridLayout());
         setTitle("Java Tutor Deluxe Login System");
 
         login = new JButton("Login");
@@ -97,7 +94,7 @@ public class LoginSystem extends JFrame implements ActionListener {
         middlePanel.add(login);
         middlePanel.add(signUp);
         middlePanel.add(exit);
-        add(middlePanel, BorderLayout.CENTER);
+        add(middlePanel);
 
         login.addActionListener(this);
         exit.addActionListener(this);
@@ -164,6 +161,20 @@ public class LoginSystem extends JFrame implements ActionListener {
 
         pack();
         setVisible(true);
+    }
+
+    /**
+     * Calculates the proper dimension to use for the Frame, based on the operating system.
+     * @return A Dimension, different by OS.
+     */
+    private Dimension calculatePreferredDimension() {
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if(os.contains("mac")) {
+            return new Dimension(450, 180);
+        }
+
+        return new Dimension(380, 180);
     }
 
     /**

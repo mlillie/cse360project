@@ -146,4 +146,9 @@ public class Companion extends TutoringPanel
 	public void onLogout() {
 
 	}
+
+	@Override
+	public void onSave() {
+
+	}
 }

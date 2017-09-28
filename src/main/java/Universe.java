@@ -14,10 +14,11 @@ import java.util.List;
 /**
  *
  * Is the Universe class for the tutoring project. This will be the frame of the entire project, and will hold all the
- * individual panels within it as well as a slider to be able to change the panels' states.
+ * individual panels within it as well as a slider to be able to change the panels' states. Also each panel has been updated,
+ * to include a logout and save method which will be ran when either is called.
  *
  * @author Matt Lillie
- * @version 9/8/2017
+ * @version 9/27/2017
  */
 public class Universe extends JFrame implements ChangeListener {
 
@@ -35,7 +36,8 @@ public class Universe extends JFrame implements ChangeListener {
     /**
      * The preferred resolution of the frame.
      */
-    private static final Dimension PREFERRED_RESOLUTION = new Dimension(1280, 720); //720
+    private static final Dimension PREFERRED_RESOLUTION = new Dimension((int)((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 1.5),
+            (int) ((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 1.3)); //720
 
     /**
      * The maximum resolution of the frame.
@@ -65,6 +67,7 @@ public class Universe extends JFrame implements ChangeListener {
             System.out.println("Error attempting to set the look and feel to the OS.");
         }
 
+
         // Setting default options, sizes, title, etc
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -92,10 +95,16 @@ public class Universe extends JFrame implements ChangeListener {
         JMenuItem exitItem = new JMenuItem("Exit");
         fileMenu.add(exitItem);
 
-        saveItem.addActionListener(e -> JOptionPane.showMessageDialog(Universe.this, "Saved!"));
+        //If save is clicked or ctrl + s, a message pops up, though it currently it does nothing.
+        saveItem.addActionListener(e -> {
+            tutoringPanels.forEach(TutoringPanel::onSave);
+            JOptionPane.showMessageDialog(Universe.this, "Saved!");
+        });
 
+        //If exit is clicked, the system will exit.
         exitItem.addActionListener(e -> System.exit(0));
 
+        //If logout is clicked, we check each panels logout method, then dispose of this frame, and go back to the login screen
         logoutItem.addActionListener(e -> {
             tutoringPanels.forEach(TutoringPanel::onLogout);
             dispose();
@@ -103,7 +112,6 @@ public class Universe extends JFrame implements ChangeListener {
         });
 
         add(menuBar, BorderLayout.NORTH);
-
 
         // This middle panel will contain the other 4 panels within it.
         JPanel middlePanel = new JPanel(new GridLayout(2, 2));

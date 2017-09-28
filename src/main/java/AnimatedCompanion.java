@@ -150,6 +150,11 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
     }
 
     @Override
+    public void onSave() {
+
+    }
+
+    @Override
     public void componentResized(ComponentEvent e) {
         //Resizing the window will require us to update the origin and radius variables.
         this.x = this.originX = getWidth() / 2 - (WIDTH / 2);

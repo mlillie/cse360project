@@ -220,6 +220,11 @@ public class Assessor extends TutoringPanel implements ActionListener
 
 	}
 
+	@Override
+	public void onSave() {
+
+	}
+
 	/*
 	 * Handles buttons, items, and checkboxes being selected.
 	 * Creates a pop-up of what was pressed.
