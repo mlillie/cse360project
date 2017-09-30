@@ -88,6 +88,9 @@ public class Universe extends JFrame implements ChangeListener {
         JMenuItem logoutItem = new JMenuItem("Logout");
         userMenu.add(logoutItem);
 
+        JMenuItem loadItem = new JMenuItem("Load");
+        fileMenu.add(loadItem);
+
         JMenuItem saveItem = new JMenuItem("Save");
         fileMenu.add(saveItem);
         saveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
@@ -101,6 +104,11 @@ public class Universe extends JFrame implements ChangeListener {
             JOptionPane.showMessageDialog(Universe.this, "Saved!");
         });
 
+        //If load is clicked, then we will want to attempt to load an assignment?
+        loadItem.addActionListener(e -> {
+            //TODO
+        });
+
         //If exit is clicked, the system will exit.
         exitItem.addActionListener(e -> System.exit(0));
 
@@ -111,6 +119,7 @@ public class Universe extends JFrame implements ChangeListener {
             SwingUtilities.invokeLater(LoginSystem::new);
         });
 
+        //Add the bar to the top of the frame.
         add(menuBar, BorderLayout.NORTH);
 
         // This middle panel will contain the other 4 panels within it.
@@ -118,7 +127,6 @@ public class Universe extends JFrame implements ChangeListener {
 
         // Create all the other panels with new anim
         TutoringPanel firstPanel = new AnimatedCompanion();
-
         firstPanel.setBorder(PANEL_BORDER);
 
         TutoringPanel secondPanel = new Tutor();

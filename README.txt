@@ -1,0 +1,3 @@
+- LoginSystem is now the main class that is used to access the entirety of the ITS.
+- Default username: admin
+- Default password: password

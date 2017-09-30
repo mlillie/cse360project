@@ -1,5 +1,3 @@
-import com.sun.deploy.util.SystemUtils;
-
 import static java.nio.file.StandardOpenOption.*;
 
 
@@ -18,15 +16,15 @@ import java.util.regex.Pattern;
 
 
 /**
- * This class represents the login system to be used for the Intelligent Tutoring System.
+ * This class represents the authentication system to be used for the Intelligent Tutoring System that is Java Tutor Deluxe.
  * - Reads users from a text file located in the resources folder of the Maven project.
  * - Sign-up functionality, saves to the users text file.
  * - Remember me reads and writes to the users local documents directory.
- * - Passwords are encoded and decoded in base 64, for a very small amount of security.
+ * - Usernames and passwords are encoded and decoded in base 64, for a very small amount of security.
  * - Username and password validation
  *
  * @author Matt Lillie
- * @version 09/26/17
+ * @version 09/29/17
  */
 public class LoginSystem extends JFrame implements ActionListener {
 
@@ -64,7 +62,7 @@ public class LoginSystem extends JFrame implements ActionListener {
     /**
      * This is the pattern which is used to see if a password has proper characters in it.
      */
-    private final static Pattern PASSWORD_PATTERN = Pattern.compile("[\\w\\Q!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\\E]+");
+    private final static Pattern PASSWORD_PATTERN = Pattern.compile("[\\w\\Q!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\\E]+"); //allows for many more characters
 
     /**
      * The minimum length of a username.
@@ -91,7 +89,7 @@ public class LoginSystem extends JFrame implements ActionListener {
         setResizable(true);
         setPreferredSize(calculatePreferredDimension());
         setLayout(new GridLayout());
-        setTitle("Java Tutor Deluxe Login System");
+        setTitle("Java Tutor Deluxe Authentication");
 
         login = new JButton("Login");
         signUp = new JButton("Sign-up");
@@ -99,7 +97,7 @@ public class LoginSystem extends JFrame implements ActionListener {
         rememberMe = new JCheckBox("Remember me");
 
         usernameField = new JTextField(12); // how long
-        passwordField = new JPasswordField(12); // how long
+        passwordField = new JPasswordField(18); // how long ?
 
         JPanel middlePanel = new JPanel(new GridBagLayout());
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -155,7 +153,7 @@ public class LoginSystem extends JFrame implements ActionListener {
                     String user = line.split(":")[0];
                     String pass = line.split(":")[1];
 
-                    usernameField.setText(user);
+                    usernameField.setText(new String(Base64.getDecoder().decode(user)));
                     passwordField.setText(new String(Base64.getDecoder().decode(pass)));
                 }
             } catch (IOException e) {
@@ -173,8 +171,7 @@ public class LoginSystem extends JFrame implements ActionListener {
                     if(line.length() == 0) continue;
                     String user = line.split(":")[0];
                     String pass = line.split(":")[1];
-                    System.out.println("user:" + user + " : " + pass);
-                    users.put(user.toLowerCase(), pass);
+                    users.put(user, pass);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -215,8 +212,10 @@ public class LoginSystem extends JFrame implements ActionListener {
 
         String username = initialUsername.toLowerCase();
 
-        if(users.containsKey(username)) {
-            if(users.get(username).equals(base64Password)) {
+        String base64Username = new String(Base64.getEncoder().encode(username.getBytes()));
+
+        if(users.containsKey(base64Username)) {
+            if(users.get(base64Username).equals(base64Password)) {
                 //User and password have been authenticated, start the ITS.
                 SwingUtilities.invokeLater(() -> new Universe(username));
 
@@ -234,7 +233,7 @@ public class LoginSystem extends JFrame implements ActionListener {
 
                     //Write to the remember me file, creating the file if it does not exist
                     //If the file has content within it, delete all the bytes within it and start fresh
-                    byte[] data = (username + ":" + base64Password).getBytes();
+                    byte[] data = (base64Username + ":" + base64Password).getBytes();
 
                     try (OutputStream out = new BufferedOutputStream(
                             Files.newOutputStream(REMEMBER_ME_PATH, CREATE, TRUNCATE_EXISTING))) {
@@ -284,10 +283,11 @@ public class LoginSystem extends JFrame implements ActionListener {
             return;
         }
 
+        String base64Username = new String(Base64.getEncoder().encode(username.toLowerCase().getBytes()));
+
         String base64Password = new String(Base64.getEncoder().encode(password.getBytes()));
 
-
-        byte[] data = (System.lineSeparator() + username + ":" + base64Password).getBytes();
+        byte[] data = (System.lineSeparator() + base64Username + ":" + base64Password).getBytes();
 
         try (OutputStream out = new BufferedOutputStream(
                 Files.newOutputStream(USERS_PATH, APPEND))) {
@@ -295,7 +295,7 @@ public class LoginSystem extends JFrame implements ActionListener {
         } catch (IOException e1) {
             e1.printStackTrace();
         } finally {
-            users.put(username.toLowerCase(), base64Password);
+            users.put(base64Username, base64Password);
             JOptionPane.showMessageDialog(this,"Successfully created the user: " + username);
         }
     }
@@ -320,7 +320,7 @@ public class LoginSystem extends JFrame implements ActionListener {
         }
 
         // Make sure username does not already exist.
-        if(users.get(username.toLowerCase()) != null) {
+        if(users.get(new String(Base64.getEncoder().encode(username.toLowerCase().getBytes()))) != null) {
             JOptionPane.showMessageDialog(this,"That username already exists!");
             return false;
         }
