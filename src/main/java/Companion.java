@@ -5,6 +5,7 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 
 /**
@@ -67,14 +68,14 @@ public class Companion extends TutoringPanel
 
                 try
                 {
-					image = ImageIO.read(new File(this.getClass().getResource("/happy.png").toURI()));
+					try (InputStream in = getClass().getResourceAsStream("/happy.png")) {
+						this.image = ImageIO.read(in);
+					}
 					JLabel picLabel = new JLabel(new ImageIcon(image));
 					add(picLabel);
 				} catch(IOException ex){
 					System.out.println("Image doesn't exist");
 
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
 				}
 				this.repaint();
             }
@@ -87,15 +88,15 @@ public class Companion extends TutoringPanel
 
 				try
 				{
-					image = ImageIO.read(new File(this.getClass().getResource("/thinking.png").toURI()));
+					try (InputStream in = getClass().getResourceAsStream("/thinking.png")) {
+						this.image = ImageIO.read(in);
+					}
 					JLabel picLabel = new JLabel(new ImageIcon(image));
 					add(picLabel);
 
 				} catch(IOException ex)
 				{
 					System.out.println("Image doesn't exist");
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
 				}
 
 				this.repaint();
@@ -109,14 +110,14 @@ public class Companion extends TutoringPanel
 
 				try
 				{
-					image = ImageIO.read(new File(this.getClass().getResource("/worried.png").toURI()));
+					try (InputStream in = getClass().getResourceAsStream("/worried.png")) {
+						this.image = ImageIO.read(in);
+					}
 					JLabel picLabel = new JLabel(new ImageIcon(image));
 					add(picLabel);
 				} catch(IOException ex)
 				{
 					System.out.println("Image doesn't exist");
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
 				}
 				this.repaint();
 
@@ -130,13 +131,13 @@ public class Companion extends TutoringPanel
 
 				try
 				{
-					image = ImageIO.read(new File(this.getClass().getResource("/sorry.png").toURI()));
+					try (InputStream in = getClass().getResourceAsStream("/sorry.png")) {
+						this.image = ImageIO.read(in);
+					}
 					JLabel picLabel = new JLabel(new ImageIcon(image));
 					add(picLabel);
 				} catch(IOException ex){
 					System.out.println("Image doesn't exist");
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
 				}
 				this.repaint();
 			}

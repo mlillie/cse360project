@@ -6,6 +6,7 @@ import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Random;
 
@@ -40,11 +41,19 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
     AnimatedCompanion() {
         //Load all the images
         try {
-            this.happyImage = ImageIO.read(new File(this.getClass().getResource("/happy.png").toURI()));
-            this.sorryImage = ImageIO.read(new File(this.getClass().getResource("/sorry.png").toURI()));
-            this.thinkingImage = ImageIO.read(new File(this.getClass().getResource("/thinking.png").toURI()));
-            this.worriedImage = ImageIO.read(new File(this.getClass().getResource("/worried.png").toURI()));
-        } catch (IOException | URISyntaxException e) {
+            try (InputStream in = getClass().getResourceAsStream("/happy.png")) {
+                this.happyImage = ImageIO.read(in);
+            }
+            try (InputStream in = getClass().getResourceAsStream("/sorry.png")) {
+                this.sorryImage = ImageIO.read(in);
+            }
+            try (InputStream in = getClass().getResourceAsStream("/thinking.png")) {
+                this.thinkingImage = ImageIO.read(in);
+            }
+            try (InputStream in = getClass().getResourceAsStream("/worried.png")) {
+                this.worriedImage = ImageIO.read(in);
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

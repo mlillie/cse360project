@@ -1,11 +1,4 @@
-import static java.nio.file.Files.readAllBytes;
-import static java.nio.file.Paths.get;
-
 import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import javax.swing.*;
 
 /**
@@ -85,13 +78,8 @@ public class Tutor extends TutoringPanel {
 	 */
 	
 	private void display_HTML(String filename) {
-		try {
-			URI fileURI = this.getClass().getResource("/"+filename).toURI();
-			String content = new String(readAllBytes(get(fileURI)));
-			mypane.setText(content); // Document text is provided below.
-			mypane.setCaretPosition(0); //Making sure the slider is at the top if it is visible
-		} catch(IOException | URISyntaxException e) {
-			e.printStackTrace();
-		}
+		String content = FileUtils.readHtmlFile(filename); //read the file
+		mypane.setText(content); // Document text is provided below.
+		mypane.setCaretPosition(0); //Making sure the slider is at the top if it is visible
 	}
 }

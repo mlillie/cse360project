@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.*;
 import java.util.Base64;
 import java.util.HashMap;
@@ -47,12 +49,6 @@ public class LoginSystem extends JFrame implements ActionListener {
      */
     private final static Path REMEMBER_ME_PATH = Paths.get(System.getProperty("user.home") + File.separator + "JavaTutorDeluxe" +
             File.separator + "jtdremember.txt");
-
-    /**
-     * The Path to the users text file.
-     */
-    private final static Path USERS_PATH = Paths.get(LoginSystem.class.getResource("users.txt").getPath().
-            replaceFirst("^/(.:/)", "$1"));
 
     /**
      * This is the pattern which is used to see if a username has proper characters in it.
@@ -162,21 +158,20 @@ public class LoginSystem extends JFrame implements ActionListener {
         }
 
         //Load all the users from the txt file.
-        if(Files.exists(USERS_PATH)) {
-            try (InputStream in = Files.newInputStream(USERS_PATH);
-                 BufferedReader reader =
-                         new BufferedReader(new InputStreamReader(in))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if(line.length() == 0) continue;
-                    String user = line.split(":")[0];
-                    String pass = line.split(":")[1];
-                    users.put(user, pass);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        try (InputStream in = getClass().getResourceAsStream("/users.txt");
+             BufferedReader reader =
+                     new BufferedReader(new InputStreamReader(in))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if(line.length() == 0) continue;
+                String user = line.split(":")[0];
+                String pass = line.split(":")[1];
+                users.put(user, pass);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
 
         pack();
         setVisible(true);
@@ -252,6 +247,7 @@ public class LoginSystem extends JFrame implements ActionListener {
                         }
                     }
                 }
+                //Wont need this frame anymore, so dispose of it
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this,"Incorrect username or password!");
@@ -274,12 +270,12 @@ public class LoginSystem extends JFrame implements ActionListener {
         }
 
         //Check username validity.
-        if(!checkUsernameValidity(username)) {
+        if (!checkUsernameValidity(username)) {
             return;
         }
 
         //Check password validity.
-        if(!checkPasswordValidity(password)) {
+        if (!checkPasswordValidity(password)) {
             return;
         }
 
@@ -289,16 +285,21 @@ public class LoginSystem extends JFrame implements ActionListener {
 
         byte[] data = (System.lineSeparator() + base64Username + ":" + base64Password).getBytes();
 
-        try (OutputStream out = new BufferedOutputStream(
-                Files.newOutputStream(USERS_PATH, APPEND))) {
-            out.write(data, 0, data.length);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        } finally {
-            users.put(base64Username, base64Password);
-            JOptionPane.showMessageDialog(this,"Successfully created the user: " + username);
-        }
+        /*String resourcePath = getResourcePath();
+        if (resourcePath != null) {
+            try (OutputStream out = new BufferedOutputStream(
+                    Files.newOutputStream(Paths.get(resourcePath + "/users.txt"), APPEND))) {
+                out.write(data, 0, data.length);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } finally {
+                users.put(base64Username, base64Password);
+                JOptionPane.showMessageDialog(this, "Successfully created the user: " + username);
+            }
+        }*/
     }
+
+
 
     /**
      * Checks the validity of the username, by making sure it has an appropriate length, does not already exist, and has valid characters.
