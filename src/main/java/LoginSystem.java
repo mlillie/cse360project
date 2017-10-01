@@ -8,8 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.*;
 import java.util.Base64;
 import java.util.HashMap;
@@ -49,6 +47,12 @@ public class LoginSystem extends JFrame implements ActionListener {
      */
     private final static Path REMEMBER_ME_PATH = Paths.get(System.getProperty("user.home") + File.separator + "JavaTutorDeluxe" +
             File.separator + "jtdremember.txt");
+
+    /**
+     * The Path to the other local users text file.
+     */
+    private final static Path OTHER_USERS = Paths.get(System.getProperty("user.home") + File.separator + "JavaTutorDeluxe" +
+            File.separator + "users.txt");
 
     /**
      * This is the pattern which is used to see if a username has proper characters in it.
@@ -91,6 +95,11 @@ public class LoginSystem extends JFrame implements ActionListener {
         signUp = new JButton("Sign-up");
         exit = new JButton("Exit");
         rememberMe = new JCheckBox("Remember me");
+
+        login.setToolTipText("Attempt to login.");
+        signUp.setToolTipText("Allowed username characters are A-Z, a-z, 0-9 and _");
+        exit.setToolTipText("Exit the program.");
+        rememberMe.setToolTipText("If selected, your username and password will be saved locally to your home directory.");
 
         usernameField = new JTextField(12); // how long
         passwordField = new JPasswordField(18); // how long ?
@@ -157,8 +166,24 @@ public class LoginSystem extends JFrame implements ActionListener {
             }
         }
 
-        //Load all the users from the txt file.
+        //Load all the users from the resource users.
         try (InputStream in = getClass().getResourceAsStream("/users.txt");
+             BufferedReader reader =
+                     new BufferedReader(new InputStreamReader(in))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.length() == 0) continue;
+                String user = line.split(":")[0];
+                String pass = line.split(":")[1];
+                users.put(user, pass);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Load all the users from the other, local, txt file.
+        try (InputStream in = Files.newInputStream(OTHER_USERS);
              BufferedReader reader =
                      new BufferedReader(new InputStreamReader(in))) {
             String line;
@@ -166,6 +191,9 @@ public class LoginSystem extends JFrame implements ActionListener {
                 if(line.length() == 0) continue;
                 String user = line.split(":")[0];
                 String pass = line.split(":")[1];
+                if(users.containsKey(user)) {
+                    continue;
+                }
                 users.put(user, pass);
             }
         } catch (IOException e) {
@@ -285,18 +313,16 @@ public class LoginSystem extends JFrame implements ActionListener {
 
         byte[] data = (System.lineSeparator() + base64Username + ":" + base64Password).getBytes();
 
-        /*String resourcePath = getResourcePath();
-        if (resourcePath != null) {
-            try (OutputStream out = new BufferedOutputStream(
-                    Files.newOutputStream(Paths.get(resourcePath + "/users.txt"), APPEND))) {
-                out.write(data, 0, data.length);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } finally {
-                users.put(base64Username, base64Password);
-                JOptionPane.showMessageDialog(this, "Successfully created the user: " + username);
-            }
-        }*/
+        try (OutputStream out = new BufferedOutputStream(
+                Files.newOutputStream(OTHER_USERS, APPEND))) {
+            out.write(data, 0, data.length);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } finally {
+            users.put(base64Username, base64Password);
+            JOptionPane.showMessageDialog(this, "Successfully created the user: " + username);
+        }
+
     }
 
 

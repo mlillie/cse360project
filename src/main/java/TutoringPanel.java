@@ -5,7 +5,7 @@ import javax.swing.*;
  * on its state.
  *
  * @author Matt Lillie
- * @version 8/30/2017
+ * @version 09/28/2017
  */
 public abstract class TutoringPanel extends JPanel {
 
