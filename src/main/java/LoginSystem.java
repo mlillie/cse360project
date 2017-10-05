@@ -16,18 +16,18 @@ import java.util.regex.Pattern;
 
 
 /**
- * This class represents the authentication system to be used for the Intelligent Tutoring System that is Java Tutor Deluxe.
+ * This class represents the authentication system to be used for the Intelligent Tutoring System that is the Java Tutor Deluxe.
  * - Reads users from a text file located in the resources folder of the Maven project.
  * - Sign-up functionality, saves to the users text file.
- * - Remember me reads and writes to the users local documents directory.
+ * - Created users are saved and read to users home directory/JavaTutorDeluxe
+ * - Remember me reads and writes to the users home directory/JavaTutorDeluxe
  * - Usernames and passwords are encoded and decoded in base 64, for a very small amount of security.
- * - Username and password validation
+ * - Username and password validation (making sure that they are of correct length, and have valid characters)
  *
  * @author Matt Lillie
- * @version 09/29/17
+ * @version 10/04/17
  */
 public class LoginSystem extends JFrame implements ActionListener {
-
 
     /**
      * All the components being used in the system.
@@ -172,7 +172,7 @@ public class LoginSystem extends JFrame implements ActionListener {
                      new BufferedReader(new InputStreamReader(in))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.length() == 0) continue;
+                if (line.trim().length() <= 0) continue;
                 String user = line.split(":")[0];
                 String pass = line.split(":")[1];
                 users.put(user, pass);
@@ -181,25 +181,27 @@ public class LoginSystem extends JFrame implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         //Load all the users from the other, local, txt file.
-        try (InputStream in = Files.newInputStream(OTHER_USERS);
-             BufferedReader reader =
-                     new BufferedReader(new InputStreamReader(in))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if(line.length() == 0) continue;
-                String user = line.split(":")[0];
-                String pass = line.split(":")[1];
-                if(users.containsKey(user)) {
-                    continue;
+        if(Files.exists(OTHER_USERS)) {
+            try (InputStream in = Files.newInputStream(OTHER_USERS);
+                 BufferedReader reader =
+                         new BufferedReader(new InputStreamReader(in))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (line.trim().length() <= 0) continue;
+                    String user = line.split(":")[0];
+                    String pass = line.split(":")[1];
+                    if (users.containsKey(user)) {
+                        continue;
+                    }
+                    users.put(user, pass);
                 }
-                users.put(user, pass);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
 
         pack();
         setVisible(true);
@@ -267,12 +269,10 @@ public class LoginSystem extends JFrame implements ActionListener {
 
                 } else {
                     //If the remember me is not checked, then we can see if the file exists, if so, delete it.
-                    if(Files.exists(REMEMBER_ME_PATH)) {
-                        try {
-                            Files.delete(REMEMBER_ME_PATH);
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
+                    try {
+                        Files.deleteIfExists(REMEMBER_ME_PATH);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
                     }
                 }
                 //Wont need this frame anymore, so dispose of it
@@ -311,10 +311,10 @@ public class LoginSystem extends JFrame implements ActionListener {
 
         String base64Password = new String(Base64.getEncoder().encode(password.getBytes()));
 
-        byte[] data = (System.lineSeparator() + base64Username + ":" + base64Password).getBytes();
+        byte[] data = (base64Username + ":" + base64Password + System.lineSeparator()).getBytes();
 
         try (OutputStream out = new BufferedOutputStream(
-                Files.newOutputStream(OTHER_USERS, APPEND))) {
+                Files.newOutputStream(OTHER_USERS, CREATE, APPEND))) {
             out.write(data, 0, data.length);
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -351,7 +351,6 @@ public class LoginSystem extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this,"That username already exists!");
             return false;
         }
-
 
         return true;
     }
