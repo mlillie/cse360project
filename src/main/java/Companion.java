@@ -1,12 +1,9 @@
-import java.awt.*;
-import javax.swing.*;
-
 import javax.imageio.ImageIO;
-import java.io.IOException;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 
 /**
  * Companion class that displays an image in the universe class depending
@@ -34,7 +31,7 @@ public class Companion extends TutoringPanel
 	//updates display according to slider state
         public void update(int state)
         {
-            this.state = state;
+            Companion.state = state;
             panel = new JPanel();
             setLayout(new GridBagLayout());
             GridBagConstraints constraint = new GridBagConstraints();

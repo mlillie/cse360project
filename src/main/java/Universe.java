@@ -4,8 +4,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ import java.util.List;
  * to include a logout and save method which will be ran when either is called.
  *
  * @author Matt Lillie
- * @version 9/27/2017
+ * @version 10/07/2017
  */
 public class Universe extends JFrame implements ChangeListener {
 
@@ -52,12 +50,12 @@ public class Universe extends JFrame implements ChangeListener {
     /**
      * The current user signed into the ITS.
      */
-    private final String currentUser;
+    private final LoginSystem.User user;
 
     /**
      * Creates a new Universe JFrame object.
      */
-    Universe(String currentUser) {
+    Universe(LoginSystem.User user) {
         // The look and feel for the frame, which will change depending on the OS.
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -65,8 +63,15 @@ public class Universe extends JFrame implements ChangeListener {
             System.out.println("Error attempting to set the look and feel to the OS.");
         }
 
+
         //Set current user and make first character uppercase for looks
-        this.currentUser = currentUser.substring(0, 1).toUpperCase() + currentUser.substring(1);
+        this.user = user;
+
+        String username = user.getUsername().substring(0, 1).toUpperCase() + user.getUsername().substring(1);
+
+        username += " - " +
+                user.getUserRights().toString().substring(0, 1) +
+                user.getUserRights().toString().substring(1, user.getUserRights().toString().length()).toLowerCase();
 
         // Setting default options, sizes, title, etc
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -82,7 +87,7 @@ public class Universe extends JFrame implements ChangeListener {
         JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
 
-        JMenu userMenu = new JMenu(this.currentUser);
+        JMenu userMenu = new JMenu(username);
         fileMenu.add(userMenu);
 
         JMenuItem logoutItem = new JMenuItem("Logout");
@@ -122,8 +127,12 @@ public class Universe extends JFrame implements ChangeListener {
             SwingUtilities.invokeLater(LoginSystem::new);
         });
         
-        classroom.addActionListener(e -> {   
-            SwingUtilities.invokeLater(MainClassroomPanel::new);
+        classroom.addActionListener(e -> {
+            if(user.getUserRights().equals(LoginSystem.UserRights.INSTRUCTOR)) {
+                SwingUtilities.invokeLater(MainClassroomPanel::new);
+            } else {
+                JOptionPane.showMessageDialog(Universe.this, "You must be an instructor to access the classroom!");
+            }
         });
 
         //Add the bar to the top of the frame.
@@ -172,6 +181,7 @@ public class Universe extends JFrame implements ChangeListener {
         setVisible(true);
     }
 
+
     /**
      * Handles the state changes of the slider.
      * @param event The change event.
@@ -204,7 +214,7 @@ public class Universe extends JFrame implements ChangeListener {
 
     public static void main(String[] args) {
         //Using this to ensure that this will run on the AWT dispatch thread.
-        SwingUtilities.invokeLater(() -> new Universe("Test User"));
+        SwingUtilities.invokeLater(() -> new Universe(new LoginSystem.User("Test User", "password", LoginSystem.UserRights.INSTRUCTOR)));
     }
 
 }

@@ -1,7 +1,10 @@
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  *  The edu.asu.CSE360.recitation01.group05.Assessor class is one of the panels implemented into the edu.asu.CSE360.recitation01.group05.Universe JFrame.
@@ -44,7 +47,7 @@ public class Assessor extends TutoringPanel implements ActionListener
 	 {
 		 
 		//Current state of slider
-		this.state = state;
+		Assessor.state = state;
 		
 		//Layout of elements
 		setLayout(new BorderLayout());

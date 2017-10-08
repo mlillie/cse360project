@@ -57,7 +57,7 @@ public class AnimationTimer implements Runnable {
         if(thread != null) {
             running = false;
             try {
-                thread.join(ms);
+                thread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

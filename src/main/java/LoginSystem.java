@@ -1,6 +1,3 @@
-import static java.nio.file.StandardOpenOption.*;
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,11 +5,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.*;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import static java.nio.file.StandardOpenOption.*;
 
 
 /**
@@ -23,9 +24,10 @@ import java.util.regex.Pattern;
  * - Remember me reads and writes to the users home directory/JavaTutorDeluxe
  * - Usernames and passwords are encoded and decoded in base 64, for a very small amount of security.
  * - Username and password validation (making sure that they are of correct length, and have valid characters)
+ * - Different types of Users (students and instructors)
  *
  * @author Matt Lillie
- * @version 10/04/17
+ * @version 10/08/17
  */
 public class LoginSystem extends JFrame implements ActionListener {
 
@@ -38,9 +40,9 @@ public class LoginSystem extends JFrame implements ActionListener {
     private JPasswordField passwordField;
 
     /**
-     * This map will hold all the users; Key = username, Value = password in base64
+     * This map will hold all the users; Key = username, Value = User object associated with the username
      */
-    private final Map<String, String> users = new HashMap<>();
+    private final Map<String, User> users = new HashMap<>();
 
     /**
      * The Path to the remember me text file.
@@ -173,15 +175,18 @@ public class LoginSystem extends JFrame implements ActionListener {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.trim().length() <= 0) continue;
-                String user = line.split(":")[0];
-                String pass = line.split(":")[1];
-                users.put(user, pass);
+                String[] splitLine = line.split(":");
+                String user = splitLine[0];
+                String pass = splitLine[1];
+                String rights = splitLine[2];
+                String realUser = new String(Base64.getDecoder().decode(user.getBytes()));
+                String realPass = new String(Base64.getDecoder().decode(pass.getBytes()));
+                users.put(user, new User(realUser, realPass, UserRights.getForString(rights)));
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         //Load all the users from the other, local, txt file.
         if(Files.exists(OTHER_USERS)) {
@@ -191,12 +196,16 @@ public class LoginSystem extends JFrame implements ActionListener {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     if (line.trim().length() <= 0) continue;
-                    String user = line.split(":")[0];
-                    String pass = line.split(":")[1];
+                    String[] splitLine = line.split(":");
+                    String user = splitLine[0];
+                    String pass = splitLine[1];
+                    String rights = splitLine[2];
                     if (users.containsKey(user)) {
                         continue;
                     }
-                    users.put(user, pass);
+                    String realUser = new String(Base64.getDecoder().decode(user.getBytes()));
+                    String realPass = new String(Base64.getDecoder().decode(pass.getBytes()));
+                    users.put(user, new User(realUser, realPass, UserRights.getForString(rights)));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -240,9 +249,9 @@ public class LoginSystem extends JFrame implements ActionListener {
         String base64Username = new String(Base64.getEncoder().encode(username.getBytes()));
 
         if(users.containsKey(base64Username)) {
-            if(users.get(base64Username).equals(base64Password)) {
+            if(users.get(base64Username).getBase64Password().equalsIgnoreCase(base64Password)) {
                 //User and password have been authenticated, start the ITS.
-                SwingUtilities.invokeLater(() -> new Universe(username));
+                SwingUtilities.invokeLater(() -> new Universe(users.get(base64Username)));
 
                 //Remember me checks.
                 if(rememberMe.isSelected()) {
@@ -307,11 +316,22 @@ public class LoginSystem extends JFrame implements ActionListener {
             return;
         }
 
+        //Create the directory if it does not exist
+        if(!Files.exists(OTHER_USERS.getParent())) {
+            try {
+                Files.createDirectory(OTHER_USERS.getParent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         String base64Username = new String(Base64.getEncoder().encode(username.toLowerCase().getBytes()));
 
         String base64Password = new String(Base64.getEncoder().encode(password.getBytes()));
 
-        byte[] data = (base64Username + ":" + base64Password + System.lineSeparator()).getBytes();
+        String rights = UserRights.STUDENT.toString(); //TODO how to make it so they can pick what right they have?
+
+        byte[] data = (base64Username + ":" + base64Password + ":" + rights + System.lineSeparator()).getBytes();
 
         try (OutputStream out = new BufferedOutputStream(
                 Files.newOutputStream(OTHER_USERS, CREATE, APPEND))) {
@@ -319,7 +339,7 @@ public class LoginSystem extends JFrame implements ActionListener {
         } catch (IOException e1) {
             e1.printStackTrace();
         } finally {
-            users.put(base64Username, base64Password);
+            users.put(base64Username, new User(username, password));
             JOptionPane.showMessageDialog(this, "Successfully created the user: " + username);
         }
 
@@ -395,6 +415,105 @@ public class LoginSystem extends JFrame implements ActionListener {
     public static void main(String[] args) {
         //Using this to ensure that this will run on the AWT dispatch thread.
         SwingUtilities.invokeLater(LoginSystem::new);
+    }
+
+
+    /**
+     * Represents a user that will have access to the ITS.
+     *
+     * @author Matt Lillie
+     * @version 10/08/17
+     */
+    static class User {
+        //Data associated with the user.
+        private String username, password;
+        private UserRights userRights;
+
+        /**
+         * Creates a new user, default rights set to student.
+         * @param username The username of the user.
+         * @param password The password of the user.
+         */
+        User(String username, String password) {
+            this.username = username;
+            this.password = password;
+            this.userRights = UserRights.STUDENT; // default?
+        }
+
+        /**
+         * Creates a new user.
+         * @param username The username of the user.
+         * @param password The password of the user.
+         * @param userRights The rights of the user.
+         */
+        User(String username, String password, UserRights userRights) {
+            this.username = username;
+            this.password = password;
+            this.userRights = userRights;
+        }
+
+        /**
+         * Gets the username of this user.
+         * @return The username.
+         */
+        public String getUsername() {
+            return username;
+        }
+
+        /**
+         * Gets the password for this user.
+         * @return The password.
+         */
+        public String getPassword() {
+            return password;
+        }
+
+        /**
+         * Gets the base64 username for this user.
+         * @return The username in base64.
+         */
+        public String getBase64Username() {
+            return new String(Base64.getEncoder().encode(username.getBytes()));
+        }
+
+        /**
+         * Gets the base64 password for this user.
+         * @return The password in base64.
+         */
+        public String getBase64Password() {
+            return new String(Base64.getEncoder().encode(password.getBytes()));
+        }
+
+        /**
+         * Gets the rights for this user.
+         * @return The user's rights.
+         */
+        public UserRights getUserRights() {
+            return userRights;
+        }
+    }
+
+    /**
+     * Enum that holds the different types of rights (Student and Instructor).
+     *
+     * @author Matt Lillie
+     * @version 10/08/17
+     */
+    enum UserRights {
+        STUDENT,
+        INSTRUCTOR;
+
+        /**
+         * Given a string, it will compare it to this enum's values to see if that string represents a right.
+         * @param userRights The right in String form.
+         * @return Default return will be STUDENT if it does not find a right from the given string.
+         */
+        static UserRights getForString(String userRights) {
+            for(UserRights rights : values())
+                if(rights.toString().equalsIgnoreCase(userRights))
+                    return rights;
+            return STUDENT;
+        }
     }
 
 }

@@ -2,3 +2,4 @@
 - Remember me and created users (other than default resource users), are saved in a folder created in the user's home directory under 'JavaTutorDeluxe'
 - Default username: admin
 - Default password: password
+- Default rights for the admin user is INSTRUCTOR
