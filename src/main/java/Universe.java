@@ -87,6 +87,9 @@ public class Universe extends JFrame implements ChangeListener {
 
         JMenuItem logoutItem = new JMenuItem("Logout");
         userMenu.add(logoutItem);
+        
+        JMenuItem classroom = new JMenuItem("Classroom");
+        userMenu.add(classroom);
 
         JMenuItem loadItem = new JMenuItem("Load");
         fileMenu.add(loadItem);
@@ -117,6 +120,10 @@ public class Universe extends JFrame implements ChangeListener {
             tutoringPanels.forEach(TutoringPanel::onLogout);
             dispose();
             SwingUtilities.invokeLater(LoginSystem::new);
+        });
+        
+        classroom.addActionListener(e -> {   
+            SwingUtilities.invokeLater(MainClassroomPanel::new);
         });
 
         //Add the bar to the top of the frame.
