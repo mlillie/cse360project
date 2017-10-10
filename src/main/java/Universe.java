@@ -107,6 +107,9 @@ public class Universe extends JFrame implements ChangeListener {
         fileMenu.add(saveItem);
         saveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 
+        JMenuItem helpItem = new JMenuItem("Help");
+        fileMenu.add(helpItem);
+        
         JMenuItem exitItem = new JMenuItem("Exit");
         fileMenu.add(exitItem);
 
@@ -120,7 +123,12 @@ public class Universe extends JFrame implements ChangeListener {
         loadItem.addActionListener(e -> {
             //TODO
         });
-
+        
+        //If help is clicked, a new instance of EmailSystem is initialized.
+        helpItem.addActionListener(e -> {
+        	 SwingUtilities.invokeLater(() -> new EmailSystem(username));
+        });
+        
         //If exit is clicked, the system will exit.
         exitItem.addActionListener(e -> System.exit(0));
 
