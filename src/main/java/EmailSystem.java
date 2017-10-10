@@ -60,11 +60,11 @@ public class EmailSystem extends JFrame implements ActionListener{
 	  
 	public EmailSystem(String user) {
 	
-		setLayout(new BorderLayout());
-		setMinimumSize(new Dimension(800, 500));
+	setLayout(new BorderLayout());
+	setMinimumSize(new Dimension(800, 500));
         setResizable(true);
         
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Contact Professor");
         
         //header
