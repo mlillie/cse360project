@@ -17,7 +17,7 @@ public class FourthPanel extends TutoringPanel {
     /**
      * The color being used for the gradient background.
      */
-    private final static Color COLOR = new Color(132, 89, 190);
+    private final static Color COLOR = new Color(13, 135, 33);
 
     /**
      * Creates a new FourthPanel object.

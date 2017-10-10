@@ -16,7 +16,7 @@ import java.util.List;
  * to include a logout and save method which will be ran when either is called.
  *
  * @author Matt Lillie
- * @version 10/07/2017
+ * @version 10/10/2017
  */
 public class Universe extends JFrame implements ChangeListener {
 
@@ -34,8 +34,10 @@ public class Universe extends JFrame implements ChangeListener {
     /**
      * The preferred resolution of the frame.
      */
-    private static final Dimension PREFERRED_RESOLUTION = new Dimension((int)((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 1.5),
-            (int) ((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 1.3)); // Should be different for each screen size, hopefully.
+    private static final Dimension PREFERRED_RESOLUTION = new Dimension(
+            (int)((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 1.5),
+            (int) ((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 1.3));
+            // Should be different for each screen size, hopefully.
 
     /**
      * The maximum resolution of the frame.
@@ -63,6 +65,8 @@ public class Universe extends JFrame implements ChangeListener {
             System.out.println("Error attempting to set the look and feel to the OS.");
         }
 
+
+        AssignmentFileUtil.loadCreatedAssignments();
 
         //Set current user and make first character uppercase for looks
         this.user = user;
