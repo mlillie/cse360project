@@ -21,7 +21,7 @@ public class Assessor extends TutoringPanel implements ActionListener
 	 *  Elements to be added into the edu.asu.CSE360.recitation01.group05.Assessor panel
 	 */
 	JPanel panel;
-	JButton b1, b2, b3;
+	JButton b1, b2, b3, submit;
 	JMenuItem item1, item2, item3;
 	JCheckBox i1, i2, i3;
 	JOptionPane dialog;
@@ -100,7 +100,7 @@ public class Assessor extends TutoringPanel implements ActionListener
 			
 				TitledBorder tBorder = BorderFactory.createTitledBorder("What is the file extension for a java file?\n");
 				jArea = new JTextArea();
-				jArea.setPreferredSize(new Dimension (400,40));
+				jArea.setPreferredSize(new Dimension (400,60));
 				jArea.setBorder(tBorder);
 			
 				panel.setBackground(newColor);
@@ -184,6 +184,8 @@ public class Assessor extends TutoringPanel implements ActionListener
 			i2 = new JCheckBox("public static class {}");
 			i3 = new JCheckBox("switch(i) {case0: return 1;default: break;}");
 			
+			submit = new JButton("Submit");
+			
 			i1.addActionListener(this);			
 			i2.addActionListener(this); 			
 			i3.addActionListener(this); 
@@ -196,50 +198,35 @@ public class Assessor extends TutoringPanel implements ActionListener
 			panel.add(i1, gbc);
 			panel.add(i2, gbc);
 			panel.add(i3, gbc);
+			panel.add(submit, gbc);
 			
 			panel.setBackground(newColor);
 			
 			add(panel);
 			
-			panel.addKeyListener(new KeyListener() {
+			enter.addActionListener(new ActionListener() {
 				
-				public void keyPressed(KeyEvent enter)
-					{
-						
+				public void actionPerformed(ActionEvent e)
+				{		
+					System.out.print(jArea.getText());
 							
-						if (enter.getKeyCode() == KeyEvent.VK_ENTER)
-						{
-							System.out.print(jArea.getText());
-							if (i3.isSelected() && !i1.isSelected() && !i2.isSelected()) {
-								JOptionPane.showMessageDialog(panel, "Selection 3 is correct.");
-								q3correct++;
-								question3complete = true;
-							}
-							else {					
-								JOptionPane.showMessageDialog(panel, "Wrong.");
-								q3wrong++;							
-							}
+					if (i3.isSelected() && !i1.isSelected() && !i2.isSelected()) {
+						JOptionPane.showMessageDialog(panel, "Selection 3 is correct.");
+						q3correct++;
+						question3complete = true;
+					}
+					else {					
+						JOptionPane.showMessageDialog(panel, "Wrong.");
+						q3wrong++;							
+					}
 								
-						jArea.setText("");
-						//consumes newline char that the enter event creates by default
-						enter.consume();
-						}
-						
-					}
-
-					@Override
-					public void keyTyped(KeyEvent e) {
-						// TODO Auto-generated method stub	
-					}
-
-					@Override
-					public void keyReleased(KeyEvent e) {
-						// TODO Auto-generated method stub	
-					}
-				});	
+					jArea.setText("");	
+				}				
+				});
+			}	
 			
-			}
 		}
+	}
 		
 		//Buttons and question 3 are visible
 		if (state == 3)
