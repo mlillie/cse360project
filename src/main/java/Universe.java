@@ -65,9 +65,6 @@ public class Universe extends JFrame implements ChangeListener {
             System.out.println("Error attempting to set the look and feel to the OS.");
         }
 
-
-        AssignmentFileUtil.loadCreatedAssignments();
-
         //Set current user and make first character uppercase for looks
         this.user = user;
 
@@ -125,10 +122,11 @@ public class Universe extends JFrame implements ChangeListener {
         });
         
         //If help is clicked, a new instance of EmailSystem is initialized.
+        final String userFinal = username;
         helpItem.addActionListener(e -> {
-        	 SwingUtilities.invokeLater(() -> new EmailSystem(username));
+        	 SwingUtilities.invokeLater(() -> new EmailSystem(userFinal));
         });
-        
+
         //If exit is clicked, the system will exit.
         exitItem.addActionListener(e -> System.exit(0));
 
