@@ -10,7 +10,7 @@ import javax.swing.border.TitledBorder;
  *  Completion Time: 7 hours
  *
  *  @author Jacqueline Fonseca
- *  @version 1.0 9/9/2017
+ *  @version 1.1 10/11/2017
  */
 public class Assessor extends TutoringPanel implements ActionListener
 {
@@ -27,7 +27,10 @@ public class Assessor extends TutoringPanel implements ActionListener
 	JOptionPane dialog;
 	JTextArea question;
 	static int state;
-	public int q1correct = 0,q1wrong = 0,q2correct = 0,q2wrong = 0,q3correct = 0,q3wrong = 0,q4correct = 0,q4wrong = 0;
+	public static int q1correct = 0, q1wrong = 0;
+	public static int q2correct = 0, q2wrong = 0;
+	public static int q3correct = 0, q3wrong = 0;
+	public static int q4correct = 0, q4wrong = 0;
 	private boolean question1complete = false, question2complete = false, question3complete = false, question4complete = false;
 	private JTextArea jArea;
 
