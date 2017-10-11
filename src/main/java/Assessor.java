@@ -204,7 +204,7 @@ public class Assessor extends TutoringPanel implements ActionListener
 			
 			add(panel);
 			
-			enter.addActionListener(new ActionListener() {
+			submit.addActionListener(new ActionListener() {
 				
 				public void actionPerformed(ActionEvent e)
 				{		
@@ -222,9 +222,7 @@ public class Assessor extends TutoringPanel implements ActionListener
 								
 					jArea.setText("");	
 				}				
-				});
-			}	
-			
+			});	
 		}
 	}
 		
