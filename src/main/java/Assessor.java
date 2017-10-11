@@ -1,10 +1,7 @@
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 /**
  *  The edu.asu.CSE360.recitation01.group05.Assessor class is one of the panels implemented into the edu.asu.CSE360.recitation01.group05.Universe JFrame.
@@ -30,6 +27,9 @@ public class Assessor extends TutoringPanel implements ActionListener
 	JOptionPane dialog;
 	JTextArea question;
 	static int state;
+	public int q1correct = 0,q1wrong = 0,q2correct = 0,q2wrong = 0,q3correct = 0,q3wrong = 0,q4correct = 0,q4wrong = 0;
+	private boolean question1complete = false, question2complete = false, question3complete = false, question4complete = false;
+	private JTextArea jArea;
 
 	/*
 	 * Creates panel
@@ -55,6 +55,7 @@ public class Assessor extends TutoringPanel implements ActionListener
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
+		
 
 		
 		//Name label is visible
@@ -72,54 +73,113 @@ public class Assessor extends TutoringPanel implements ActionListener
 			}
 		
 		//Menu holding question 1 is visible
+		//Text area and prompt are visible
 		if (state == 1)
 		{
-			removeAll();
+			this.removeAll();
+			if(question1complete == true) {
+				question = new JTextArea("Question 1");
+				add(question, BorderLayout.NORTH);
+				Color newColor = new Color(165, 200, 180);
+				
+				JLabel name = new JLabel("<html> <b>Correct Attempts: </b>"+q1correct+"<b>Incorrect Attempts: </b>"+q1wrong+"</html>");
+				
+				panel.setBackground(newColor);
+				panel.add(name);
+				add(panel);
+			}
+			else{
+				Color newColor = new Color(230, 230, 170);
 			
-			Color newColor = new Color(180, 200, 220);
+				question = new JTextArea("Question 1");
+				add(question, BorderLayout.NORTH);
+				question.setEditable(false);
 			
-			question = new JTextArea("Question 1");
-			add(question, BorderLayout.NORTH);
-			question.setEditable(false);
+				TitledBorder tBorder = BorderFactory.createTitledBorder("What is the file extension for a java file?\n");
+				jArea = new JTextArea();
+				jArea.setPreferredSize(new Dimension (400,40));
+				jArea.setBorder(tBorder);
 			
-			JMenuBar menubar = new JMenuBar();
-			JMenu menu = new JMenu("Who is the Mother of Dragons?");
+				panel.setBackground(newColor);
 			
-			item1 = new JMenuItem("Barney");
-			item2 = new JMenuItem("Daenerys Targaryen");
-			item3 = new JMenuItem("Hodor");
-			
-			menu.add(item1);
-			menu.add(item2);
-			menu.add(item3);
-			
-			menubar.add(menu);
-			panel.add(menubar);
-			panel.setBackground(newColor);
-			add(panel, BorderLayout.CENTER);
-			
-			item1.addActionListener(this);
-			item2.addActionListener(this); 
-			item3.addActionListener(this);	
+			//Creates a pop-up containing input when 'enter' is pressed
+				jArea.addKeyListener(new KeyListener() {
+				
+			public void keyPressed(KeyEvent enter)
+				{
+					
+						
+					if (enter.getKeyCode() == KeyEvent.VK_ENTER)
+					{
+						String entry = jArea.getText();
+						System.out.print(jArea.getText());
+						if (jArea.getText().equals(".java")) {
+							JOptionPane.showMessageDialog(panel, "file" + entry+" is correct.");
+							q1correct++;
+							
+							question1complete = true;
+						}
+						else if (jArea.getText().compareTo("java") == 0) {
+							jArea.setText("");
+							JOptionPane.showMessageDialog(panel, "You forgot the '.' ");
+						}
+						else {
+							jArea.setText("");							
+							JOptionPane.showMessageDialog(panel, "Wrong.");
+							q1wrong++;							
+						}
+							
+					jArea.setText("");	
+					}
+					
+				}
+
+				@Override
+				public void keyTyped(KeyEvent e) {
+					// TODO Auto-generated method stub	
+				}
+
+				@Override
+				public void keyReleased(KeyEvent e) {
+					// TODO Auto-generated method stub	
+				}
+			});			
+			//panel.add(prompt);
+			panel.add(jArea);
+			add(panel);
 		}
+		}
+		
+		
 		
 		//Checkboxes and question 2 are visible
 		if (state == 2)
 		{
-			removeAll();
-			
+			this.removeAll();
+			if(question2complete == true) {
+				question = new JTextArea("Question 2");
+				add(question, BorderLayout.NORTH);
+				Color newColor = new Color(165, 200, 180);
+				
+				JLabel name = new JLabel("<html> <b>Correct Attempts: </b>"+q2correct+"<b>Incorrect Attempts: </b>"+q2wrong+"</html>");
+				
+				panel.setBackground(newColor);
+				panel.add(name);
+				add(panel);
+			}
+			else{
 			Color newColor = new Color(175, 160, 190);
 			
 			question = new JTextArea("Question 2");
 			add(question, BorderLayout.NORTH);
 			question.setEditable(false);
 			
-			JLabel prompt = new JLabel("What are your favorite subjects?");
+			JLabel prompt = new JLabel("Which are valid java statements?");
 			prompt.setHorizontalAlignment(JLabel.CENTER);
 			
-			i1 = new JCheckBox("Math");
-			i2 = new JCheckBox("English");
-			i3 = new JCheckBox("Science");
+			i1 = new JCheckBox("cout<< 'hello world' ");
+			i2 = new JCheckBox("public static class {}");
+			i3 = new JCheckBox("switch(i) {case0: return 1;default: break;}");
 			
 			i1.addActionListener(this);			
 			i2.addActionListener(this); 			
@@ -137,6 +197,43 @@ public class Assessor extends TutoringPanel implements ActionListener
 			panel.setBackground(newColor);
 			
 			add(panel);
+			
+			panel.addKeyListener(new KeyListener() {
+				
+				public void keyPressed(KeyEvent enter)
+					{
+						
+							
+						if (enter.getKeyCode() == KeyEvent.VK_ENTER)
+						{
+							System.out.print(jArea.getText());
+							if (i3.isSelected() && !i1.isSelected() && !i2.isSelected()) {
+								JOptionPane.showMessageDialog(panel, "Selection 3 is correct.");
+								q3correct++;
+								question3complete = true;
+							}
+							else {					
+								JOptionPane.showMessageDialog(panel, "Wrong.");
+								q3wrong++;							
+							}
+								
+						jArea.setText("");	
+						}
+						
+					}
+
+					@Override
+					public void keyTyped(KeyEvent e) {
+						// TODO Auto-generated method stub	
+					}
+
+					@Override
+					public void keyReleased(KeyEvent e) {
+						// TODO Auto-generated method stub	
+					}
+				});	
+			
+			}
 		}
 		
 		//Buttons and question 3 are visible
@@ -150,12 +247,12 @@ public class Assessor extends TutoringPanel implements ActionListener
 			
 			Color newColor = new Color(205, 85, 90);
 			
-			JLabel prompt = new JLabel("Choose a university.");
+			JLabel prompt = new JLabel("What is the access time for a linked list?");
 			prompt.setHorizontalAlignment(JLabel.CENTER);
 			
-			b1 = new JButton("Arizona State University");
-			b2 = new JButton("Univesity of Arizona");
-			b3 = new JButton("Other");
+			b1 = new JButton("O(1)");
+			b2 = new JButton("O(n)");
+			b3 = new JButton("O(n^2)");
 			
 			panel.add(prompt, gbc);
 			panel.add(b1, gbc);
@@ -171,51 +268,49 @@ public class Assessor extends TutoringPanel implements ActionListener
 			add(panel);
 		}
 		
-		//Text area and prompt are visible
 		if (state == 4)
 		{
-			this.removeAll();
+			removeAll();
+			if (question4complete == true) {
+				removeAll();
+				
+				Color newColor = new Color(165, 200, 180);
+				
+				JLabel name = new JLabel("<html> <b>Question 4: </b> Complete </html>");
+				
+				panel.setBackground(newColor);
+				panel.add(name);
+				add(panel);
+			}
+			else {
 			
-			Color newColor = new Color(230, 230, 170);
+			Color newColor = new Color(180, 200, 220);
 			
 			question = new JTextArea("Question 4");
 			add(question, BorderLayout.NORTH);
 			question.setEditable(false);
 			
-			TitledBorder tBorder = BorderFactory.createTitledBorder("Write your name and hit enter: ");
-			JTextArea jArea = new JTextArea();
-			jArea.setPreferredSize(new Dimension (250,40));
-			jArea.setBorder(tBorder);
+			JMenuBar menubar = new JMenuBar();
+			JMenu menu = new JMenu("_______");
 			
+			item1 = new JMenuItem(".length");
+			item2 = new JMenuItem(".size()");
+			item3 = new JMenuItem(".length()");
+			
+			menu.add(item1);
+			menu.add(item2);
+			menu.add(item3);
+			
+			menubar.add(menu);
+			panel.add(menubar);
 			panel.setBackground(newColor);
+			add(panel, BorderLayout.CENTER);
 			
-			//Creates a pop-up containing input when 'enter' is pressed
-			jArea.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent enter)
-				{
-					if (enter.getKeyCode() == KeyEvent.VK_ENTER)
-					{
-						String name = jArea.getText();
-						JOptionPane.showMessageDialog(panel, "Your name is: " + name);
-						jArea.setText("");	
-					}
-				}
-
-				@Override
-				public void keyTyped(KeyEvent e) {
-					// TODO Auto-generated method stub	
-				}
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					// TODO Auto-generated method stub	
-				}
-			});			
-			//panel.add(prompt);
-			panel.add(jArea);
-			add(panel);
+			item1.addActionListener(this);
+			item2.addActionListener(this); 
+			item3.addActionListener(this);	
+			}
 		}
-		
 	 }
 
 	@Override
@@ -236,24 +331,23 @@ public class Assessor extends TutoringPanel implements ActionListener
 	{
 		Object source = e.getSource();
 			
-		if (source == item1 || source == item3)
+		if (source == item1 || source == item3) {
 			JOptionPane.showMessageDialog(panel, "Wrong Answer!");
-		if (source == item2)
+			q2wrong++;}
+		if (source == item2) {
 			JOptionPane.showMessageDialog(panel, "Correct!");
-		
-		if (source == b1)
+			question2complete = true;
+			q2correct++;}
+		if (source == b1) {
 			JOptionPane.showMessageDialog(panel,"Good Choice!");
-		if (source == b2 || source == b3)
+			question3complete = true;
+			q3correct++;}
+		if (source == b2 || source == b3) {
 			JOptionPane.showMessageDialog(panel,"Wrong Choice!");		
-			
-		if (source == i1)
-			if (i1.isSelected() == true) 
-				JOptionPane.showMessageDialog(panel,"You selected " + i1.getText());
-		if (source == i2)
-			if (i2.isSelected() == true)
-				JOptionPane.showMessageDialog(panel,"You selected " + i2.getText());		
-		if (source == i3)
-			if (i3.isSelected() == true)
-				JOptionPane.showMessageDialog(panel,"You selected " + i3.getText());		 
+			q3wrong++;}
+	
+		
+		
+		
 	}
 }
