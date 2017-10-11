@@ -220,7 +220,8 @@ public class Assessor extends TutoringPanel implements ActionListener
 						q3wrong++;							
 					}
 								
-					jArea.setText("");	
+					jArea.setText("");
+					enter.consume(); //takes care of new line char caused by enter
 				}				
 			});	
 		}
