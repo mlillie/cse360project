@@ -11,9 +11,13 @@ import java.util.Random;
 /**
  * This is an animated version of the Companion class, for now the image being displayed will either move in a circle
  * or bounce around off the walls. Images by Ashley Goernitz, though I, Matt Lillie, wrote the entirety of the animation code.
+ * 
+ * Ashley edited the move image method so that images would move in a fast circle only if the number of correct answers was 
+ * less than the number of incorrect. Ashley also edited the graphics2D.drawImage method by having the method draw different 
+ * images based on user performance.
  *
- * @author Matt Lillie
- * @version 09/22/2017
+ * @author Matt Lillie, Ashley Goernitz (Edits)
+ * @version 10/11/2017
  */
 public class AnimatedCompanion extends TutoringPanel implements ComponentListener {
 
@@ -82,11 +86,14 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
      * Moves the image by updating its x and y position on the panel.
      */
     private void moveImage() {
+    	int totalCorrect = Assessor.q1correct + Assessor.q2correct + Assessor.q3correct + Assessor.q4correct;
+        int totalWrong = Assessor.q1wrong + Assessor.q2wrong + Assessor.q3wrong + Assessor.q4wrong;
+        
         if (panelState == 0) {
             return;
         }
 
-        if (panelState % 2 == 0) {
+        if (totalCorrect < totalWrong) {
             //Goes in a circle
             x = (int) (originX + Math.cos(Math.toRadians(theta)) * radius);
             y = (int) (originY + Math.sin(Math.toRadians(theta)) * radius);
@@ -123,13 +130,16 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
                 RenderingHints.VALUE_ANTIALIAS_ON);
         graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
-
+        
+        int totalCorrect = Assessor.q1correct + Assessor.q2correct + Assessor.q3correct + Assessor.q4correct;
+        int totalWrong = Assessor.q1wrong + Assessor.q2wrong + Assessor.q3wrong + Assessor.q4wrong;
+        
         //draw whichever image at the updated x and y positions
         graphics2D.drawImage(
-                panelState == 1 ? happyImage :
-                        panelState == 2 ? sorryImage :
-                                panelState == 3 ? thinkingImage :
-                                        panelState == 4 ? worriedImage : null
+                totalCorrect == totalWrong ? thinkingImage :
+                        totalCorrect > totalWrong ? happyImage :
+                                totalCorrect < totalWrong && totalCorrect == 0 ? sorryImage :
+                                        totalCorrect < totalWrong ? worriedImage : null
                 , x, y, WIDTH, HEIGHT, this);
 
         graphics2D.dispose();
