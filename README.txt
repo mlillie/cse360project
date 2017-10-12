@@ -13,3 +13,8 @@
   -Then using this, I edit the graphics2D.DrawImage to draw a different image depending on the number of correct and incorrect answers
   - Also edited the MoveImage() method so that the image goes in a circle if the total number of correct answers is less than the total number of incorrect answers
   
+-Instructor's Classroom can be launched through the Classroom option in the menu
+  - Will only be accessible to instructors
+  - List of premade assignments are loaded from a folder under resources
+    - Instructor will be able to change assignment deadline and total points
+  - List of questions that will be used for assessments will be loaded from a text file under resources and displayed 
