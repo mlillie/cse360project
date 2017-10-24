@@ -4,12 +4,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 /**
  * A simple class used in relation to file utilities.
  *
  * @author Matt Lillie
- * @version 10/06/17
+ * @version 10/22/17
  */
 public class FileUtils {
 
@@ -38,20 +39,16 @@ public class FileUtils {
 
 
     /**
-     * Reads a file at the path given. This should be used to read anything that is not located in the maven resources folder.
+     * Reads the contents of a File at a given Path, then returns a String of the contents.
      *
-     * @param path The path to the file that will be read.
-     * @return A string that contains the contents of the file.
+     * @param path The Path to the File to be read.
+     * @return A String of the contents of the File at the given Path.
      */
     public static String readFile(Path path) {
         StringBuilder builder = new StringBuilder();
-        try (InputStream in = Files.newInputStream(path);
-             BufferedReader reader =
-                     new BufferedReader(new InputStreamReader(in))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line).append(System.lineSeparator());
-            }
+        try {
+            List<String> lines = Files.readAllLines(path);
+            lines.forEach(line -> builder.append(line).append(System.lineSeparator()));
         } catch (IOException e) {
             e.printStackTrace();
         }

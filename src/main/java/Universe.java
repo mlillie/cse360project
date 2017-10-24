@@ -98,11 +98,11 @@ public class Universe extends JFrame implements ChangeListener {
         userMenu.add(classroom);
 
         JMenuItem loadItem = new JMenuItem("Load");
-        fileMenu.add(loadItem);
+        //fileMenu.add(loadItem);
 
         JMenuItem saveItem = new JMenuItem("Save");
-        fileMenu.add(saveItem);
-        saveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+        //fileMenu.add(saveItem);
+        //saveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 
         JMenuItem helpItem = new JMenuItem("Help");
         fileMenu.add(helpItem);
@@ -161,7 +161,7 @@ public class Universe extends JFrame implements ChangeListener {
         TutoringPanel thirdPanel = new Assessor();
         thirdPanel.setBorder(PANEL_BORDER);
 
-        TutoringPanel fourthPanel = new FourthPanel();
+        TutoringPanel fourthPanel = new JavaCodeTester();
         fourthPanel.setBorder(PANEL_BORDER);
 
         // Add the panels to the list and add all the panels to the middle panel

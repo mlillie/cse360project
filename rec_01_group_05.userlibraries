@@ -1,3 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<eclipse-userlibraries />
+<eclipse-userlibraries>
+  <library name="Maven: javax.mail:javax.mail-api:1.6.0">
+    <archive path="C:/Users/mlill/.m2/repository/javax/mail/javax.mail-api/1.6.0/javax.mail-api-1.6.0.jar" />
+  </library>
+  <library name="Maven: com.sun.mail:gimap:1.6.0">
+    <archive path="C:/Users/mlill/.m2/repository/com/sun/mail/gimap/1.6.0/gimap-1.6.0.jar" />
+  </library>
+  <library name="Maven: com.sun.mail:javax.mail:1.6.0">
+    <archive path="C:/Users/mlill/.m2/repository/com/sun/mail/javax.mail/1.6.0/javax.mail-1.6.0.jar" />
+  </library>
+  <library name="Maven: javax.activation:activation:1.1">
+    <archive path="C:/Users/mlill/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar" />
+  </library>
+  <library name="Maven: com.sun.mail:logging-mailhandler:1.6.0-rc1">
+    <archive path="C:/Users/mlill/.m2/repository/com/sun/mail/logging-mailhandler/1.6.0-rc1/logging-mailhandler-1.6.0-rc1.jar" />
+  </library>
+</eclipse-userlibraries>
 

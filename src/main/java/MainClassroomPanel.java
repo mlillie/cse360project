@@ -23,7 +23,8 @@ public class MainClassroomPanel extends JFrame implements ActionListener{
 	
 	private static final long serialVersionUID = 1L;
 
-	private static final Path FILES_PATH = Paths.get(AssignmentQuestions.class.getResource("assignment_files").getPath());
+	private static final Path FILES_PATH = Paths.get(AssignmentQuestions.class.getResource("assignment_files").getPath().
+			replaceFirst("^/(.:/)", "$1"));
 	private static final Dimension PREFERRED_RESOLUTION = new Dimension(1280, 720);
 	private JButton viewQuestions, exitQuestions, exit; 
 	private JPanel main;

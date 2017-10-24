@@ -5,4 +5,11 @@
 		<testFolder url="file://$MODULE_DIR$/src/test/java"/>
 		<excludeFolder url="file://$MODULE_DIR$/target"/>
 	</contentEntry>
+	<levels>
+		<level name="Maven: javax.mail:javax.mail-api:1.6.0" value="project"/>
+		<level name="Maven: com.sun.mail:gimap:1.6.0" value="project"/>
+		<level name="Maven: com.sun.mail:javax.mail:1.6.0" value="project"/>
+		<level name="Maven: javax.activation:activation:1.1" value="project"/>
+		<level name="Maven: com.sun.mail:logging-mailhandler:1.6.0-rc1" value="project"/>
+	</levels>
 </component>

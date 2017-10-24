@@ -37,13 +37,13 @@ public class EmailSystem extends JFrame implements ActionListener{
 	
 	private String[][] userTable = {
 		    //first and last name
-			{"Seth Turnage", "Jacky Fonseca" , "Matt Lillie", "Ashley Goernitz"
+			{"Seth Turnage", "Jacky Fonseca" , "Matt Lillie", "Ashley Goernitz", "Admin - Instructor"
 		    	},
 		    //test sender address
 		    {"testsender.cse360@gmail.com", "testsender.cse360@gmail.com","testsender.cse360@gmail.com","testsender.cse360@gmail.com",
-		    		},
+					"testsender.cse360@gmail.com"},
 		    //test sender can be signed into with password "testsendercse"
-		    {"testsendercse", "testsendercse","testsendercse","testsendercse",
+		    {"testsendercse", "testsendercse","testsendercse","testsendercse","testsendercse",
     		},	    
 	};
 	
@@ -129,17 +129,17 @@ public class EmailSystem extends JFrame implements ActionListener{
            new javax.mail.Authenticator() {
               protected PasswordAuthentication getPasswordAuthentication() {
                  return new PasswordAuthentication(currentStudentEmail, currentStudentPassword);
-  	   }
+  	   			}
            });
 	}
 	
 	/**
 	 * The table is queried to update the sender email fields based on the current sender.
-	 * @param The user, passed from universe, to query the database for.
+	 * @param user, passed from universe, to query the database for.
 	 */
 	private void queryUser(final String user) {
 		for(int i = 0;i < userTable[0].length;i++) {
-			if (userTable[0][i] == user) {
+			if (userTable[0][i].equalsIgnoreCase(user)) {
 				currentStudent = userTable[0][i];
 				currentStudentEmail = userTable[1][i];
 				currentStudentPassword = userTable[2][i];
@@ -186,7 +186,6 @@ public class EmailSystem extends JFrame implements ActionListener{
       if(source.equals(sendButton)) {
             attemptsend();
         } else if (source.equals(closeButton)) {
-            System.exit(0);
             dispose();
             System.out.print("close");
         }
@@ -229,7 +228,6 @@ public class EmailSystem extends JFrame implements ActionListener{
 		            return;
 		        }
 		      if(source.equals(closeButton)) {
-		            System.exit(0);
 		            dispose();
 		            System.out.print("close");
 		        }
