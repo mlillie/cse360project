@@ -15,15 +15,15 @@ import javax.swing.JRadioButton;
  * 
  * @author Seth Turnage
  * @serial 1L
- * @class SimpleQuestion:
- * -implements Question interface and extends JPanel
+ * @class MultipleChoice:
+ * -Inherits Decorator and adds multiple choice functionality.
  * 
  * 
  * 					            | Component |<-----------------|
  * 						            /    \                     |
  *	 		  | Concrete Component |  |  Decorator  |<>------| 
- *                                             |
- *                                    |* Concrete Decorator *|
+ *                                           		  |
+ *                                  		  |* Concrete Decorator *|
  * 
  */
 public class MultipleChoice extends QuestionDecorator implements ActionListener{
