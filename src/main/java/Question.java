@@ -1,3 +1,5 @@
+import java.awt.Component;
+
 /**
  * 
  * @author Seth Turnage
@@ -16,7 +18,8 @@
 public interface Question {
 	public boolean isComplete();
 	public int getAttempts();
-	public boolean answer();
-	public void update();
+	public boolean checkanswer();
+	void addtopanel(Component c);
+	void setAnswer(int answerKey);
 }
 

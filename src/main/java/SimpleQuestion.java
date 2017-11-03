@@ -1,5 +1,12 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -20,8 +27,10 @@ import javax.swing.JPanel;
 public class SimpleQuestion extends JPanel implements Question {
 
 	private static final long serialVersionUID = 1L;
+	private JButton submitButton;
 	private int attempts;
-	private boolean complete;
+	private JPanel questionPanel;
+	protected boolean complete;
 	protected int answerKey = 0;
 	protected int currentAnswer = 0;
 	
@@ -30,42 +39,56 @@ public class SimpleQuestion extends JPanel implements Question {
 		complete = false;
 		setLayout(new BorderLayout());
 		setBackground(Color.white);
+		submitButton = new JButton("Submit");
+
+		
+		submitButton.addActionListener(new ActionListener()
+		{
+		  public void actionPerformed(ActionEvent e)
+		  {
+		    //answer when submit button is pressed
+		    checkanswer();
+		    
+		  }
+		});
+		
+		add(submitButton, BorderLayout.SOUTH, JLayeredPane.DEFAULT_LAYER);
+	
+		setVisible(true);
 	}
 	
-	@Override
-	public void update() {
-		if(complete == true) {
-			setBackground(Color.GREEN);
-			this.revalidate();
-		}
-		else {
-			this.revalidate();
-		}
+	public void setAnswer(int Answer) {
+		this.answerKey = Answer;
 	}
+	
+	public void setCurrentAnswer(int Answer) {
+		this.currentAnswer = Answer;
+	}
+
+	public void addtopanel(Component c) {
+		add(c, BorderLayout.CENTER);
+	}
+	
+
 	
 	@Override
 	public boolean isComplete() {
-		// TODO Auto-generated method stub
 		return complete;
 	}
 
 	@Override
 	public int getAttempts() {
-		// TODO Auto-generated method stub
 		return attempts;
 	}
 
 	@Override
-	public boolean answer() {
-		// TODO Auto-generated method stub
-		attempts++;
+	public boolean checkanswer() {
 		if (answerKey == currentAnswer) {
 			complete = true;
-			update();
-			return true;
+			submitButton.setText("complete");
+			submitButton.setBackground(Color.green);
 		}
-		update();
-		return false;
+		return (answerKey == currentAnswer);
 	}
 
 
