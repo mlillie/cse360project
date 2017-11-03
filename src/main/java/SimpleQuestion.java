@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -61,11 +62,15 @@ public class SimpleQuestion extends JPanel implements Question {
 		this.answerKey = Answer;
 	}
 	
-	public void setCurrentAnswer(int Answer) {
+	public void setAttempt(int Answer) {
 		this.currentAnswer = Answer;
 	}
+	
+	public void setQuestion(String question) {
+		add(new JLabel(question),BorderLayout.NORTH);
+	}
 
-	public void addtopanel(Component c) {
+	public void addtoQuestion(Component c) {
 		add(c, BorderLayout.CENTER);
 	}
 	

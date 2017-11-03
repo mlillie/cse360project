@@ -46,17 +46,37 @@ public abstract class QuestionDecorator extends JPanel implements Question{
 		setVisible(true);
 	}
 	
-	public void addtopanel(Component c) {
-		((Question) questiontobedecorated).addtopanel(c);
+	public void addtoQuestion(Component c) {
+		((Question) questiontobedecorated).addtoQuestion(c);
+	}
+	
+	public void setQuestion(String question) {
+		((Question) questiontobedecorated).setQuestion(question);
 	}
 	
 	public void setAnswer(int answerKey) {
 		((Question) questiontobedecorated).setAnswer(answerKey);
 	}
 
+	public void setAttempt(int answerKey) {
+		((Question) questiontobedecorated).setAttempt(answerKey);
+	}
+	/**
+	 * Utility function to help parse arrays of answers into a unique integer.
+	 * 
+	 */
+	public int parseMultipleChoiceFromArray(int array[]) {
+		int returnedInteger=0;
+		
+		for (int index = 0; index < array.length ; index++) {
+			if (array[index] != 0) {
+				returnedInteger += (int)Math.pow((double)2, (double)index);
+			}
+		}
+		
+		return returnedInteger;
+	}
 	
-	
-	protected abstract int setcurrentAnswer(int answerKey);
 	
 	@Override 
 	public boolean isComplete() {

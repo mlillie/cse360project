@@ -14,7 +14,7 @@ import javax.swing.border.TitledBorder;
  */
 public class Assessor extends TutoringPanel implements ActionListener
 {
-
+	
 	static final long serialVersionUID = 1L;
 
 	/*
@@ -33,14 +33,17 @@ public class Assessor extends TutoringPanel implements ActionListener
 	public static int q4correct = 0, q4wrong = 0;
 	private boolean question1complete = false, question2complete = false, question3complete = false, question4complete = false;
 	private JTextArea jArea;
-
+	private Fillintheblank q1;
+	private MultipleChoice q3;
+	private MultipleMultipleChoice q2;
+	private MultipleChoice q4;
 	/*
 	 * Creates panel
 	 */
 	public Assessor()
-	{
+	{	
 	}
-
+	
 	/*
 	 * Establishes what should be shown in the panel
 	 * @param stateChange current state of slider
@@ -48,277 +51,140 @@ public class Assessor extends TutoringPanel implements ActionListener
 	@Override
 	 public void update(int state)
 	 {
-
+		 
 		//Current state of slider
 		Assessor.state = state;
-
+		
 		//Layout of elements
 		setLayout(new BorderLayout());
 		panel = new JPanel(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-
-
-
+		
+		
 		//Name label is visible
 		if (state == 0)
 		{
 			removeAll();
-
+			
 			Color newColor = new Color(165, 200, 180);
-
+			
 			JLabel name = new JLabel("<html> <b>Assessor: </b> Jacqueline Fonseca </html>");
-
+			
 			panel.setBackground(newColor);
 			panel.add(name);
 			add(panel);
 			}
-
+		
 		//Menu holding question 1 is visible
 		//Text area and prompt are visible
 		if (state == 1)
 		{
+			
 			this.removeAll();
 			if(question1complete == true) {
 				question = new JTextArea("Question 1");
 				add(question, BorderLayout.NORTH);
 				Color newColor = new Color(165, 200, 180);
-
-				JLabel name = new JLabel("<html> <b>Correct Attempts: </b>"+q1correct+" <b>Incorrect Attempts: </b>"+q1wrong+"</html>");
-
+				
+				JLabel name = new JLabel("<html> <b>Correct Attempts: </b>"+1+"<b>Incorrect Attempts: </b>"+(q1.getAttempts() -1)+"</html>");
+				
 				panel.setBackground(newColor);
 				panel.add(name);
 				add(panel);
 			}
 			else{
-				Color newColor = new Color(230, 230, 170);
-
-				question = new JTextArea("Question 1");
-				add(question, BorderLayout.NORTH);
-				question.setEditable(false);
-
-				TitledBorder tBorder = BorderFactory.createTitledBorder("What is the file extension for a java file?\n");
-				jArea = new JTextArea();
-				jArea.setPreferredSize(new Dimension (400,60));
-				jArea.setBorder(tBorder);
-
-				panel.setBackground(newColor);
-
-			//Creates a pop-up containing input when 'enter' is pressed
-				jArea.addKeyListener(new KeyListener() {
-
-			public void keyPressed(KeyEvent enter)
-				{
-
-
-					if (enter.getKeyCode() == KeyEvent.VK_ENTER)
-					{
-						String entry = jArea.getText();
-						System.out.print(jArea.getText());
-						if (jArea.getText().equals(".java")) {
-							JOptionPane.showMessageDialog(panel, "file" + entry+" is correct.");
-							q1correct++;
-
-							question1complete = true;
-						}
-						else if (jArea.getText().compareTo("java") == 0) {
-							jArea.setText("");
-							JOptionPane.showMessageDialog(panel, "You forgot the '.' ");
-						}
-						else {
-							jArea.setText("");
-							JOptionPane.showMessageDialog(panel, "Wrong.");
-							q1wrong++;
-						}
-
-					jArea.setText("");
-					enter.consume(); //takes care of new line char caused by enter\
-						update(state);
-						Assessor.this.revalidate();
-						Assessor.this.repaint();
-					}
-
-				}
-
-				@Override
-				public void keyTyped(KeyEvent e) {
-					// TODO Auto-generated method stub
-				}
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					// TODO Auto-generated method stub
-				}
-			});
-			//panel.add(prompt);
-			panel.add(jArea);
-			add(panel);
+				//new MultipleMultipleChoice(JPanel otherpanel,String Question, String choices[],int answers[]){
+				
+				q1 = new Fillintheblank(new SimpleQuestion(),"What is the extension for a java file?",".java");
+				add(q1);
+				 
 		}
 		}
-
-
-
+		
+		
+		
 		//Checkboxes and question 2 are visible
-		if (state == 2)
+		if (state == 3)
 		{
+			
 			this.removeAll();
-			if(question2complete == true) {
+			if(question1complete == true) {
 				question = new JTextArea("Question 2");
 				add(question, BorderLayout.NORTH);
 				Color newColor = new Color(165, 200, 180);
-
-				JLabel name = new JLabel("<html> <b>Correct Attempts: </b>"+q2correct+" <b>Incorrect Attempts: </b>"+q2wrong+"</html>");
-
+				
+				JLabel name = new JLabel("<html> <b>Correct Attempts: </b>"+2+"<b>Incorrect Attempts: </b>"+(q2.getAttempts() -1)+"</html>");
+				
 				panel.setBackground(newColor);
 				panel.add(name);
 				add(panel);
 			}
 			else{
-			Color newColor = new Color(175, 160, 190);
-
-			question = new JTextArea("Question 2");
-			add(question, BorderLayout.NORTH);
-			question.setEditable(false);
-
-			JLabel prompt = new JLabel("Which are valid java statements?");
-			prompt.setHorizontalAlignment(JLabel.CENTER);
-
-			i1 = new JCheckBox("cout<< 'hello world' ");
-			i2 = new JCheckBox("public static class {}");
-			i3 = new JCheckBox("switch(i) {case0: return 1;default: break;}");
-
-			submit = new JButton("Submit");
-
-			i1.setSelected(false);
-			i2.setSelected(false);
-			i3.setSelected(false);
-
-			panel.add(prompt, gbc);
-			panel.add(i1, gbc);
-			panel.add(i2, gbc);
-			panel.add(i3, gbc);
-			panel.add(submit, gbc);
-
-			panel.setBackground(newColor);
-
-			add(panel);
-
-			submit.addActionListener(new ActionListener() {
-
-				public void actionPerformed(ActionEvent e)
-				{
-					System.out.print(jArea.getText());
-
-					if (i3.isSelected() && !i1.isSelected() && !i2.isSelected()) {
-						JOptionPane.showMessageDialog(panel, "Selection 3 is correct.");
-						q2correct++;
-						question2complete = true;
-					}
-					else {
-						JOptionPane.showMessageDialog(panel, "Wrong.");
-						q2wrong++;
-					}
-
-
-					jArea.setText("");
-					update(state);
-					Assessor.this.revalidate();
-					Assessor.this.repaint();
-				}
-			});
+				//new MultipleMultipleChoice(JPanel otherpanel,String Question, String choices[],int answers[]){
+				String choices[]= {"O(1) ","O(n)","O(n^2)"};
+				int answers[]= {1,0,0};
+				q3 = new MultipleChoice(new SimpleQuestion(),"What is the access time for a linked list?",choices,answers);
+				add(q3);
+				
 		}
-	}
-
+}
+	
+		
 		//Buttons and question 3 are visible
-		if (state == 3)
+		if (state == 2)
 		{
+			
 			this.removeAll();
-			if(question3complete == true) {
-			question = new JTextArea("Question 3");
-			add(question, BorderLayout.NORTH);
-			Color newColor = new Color(165, 200, 180);
-
-			JLabel name = new JLabel("<html> <b>Correct Attempts: </b>"+q3correct+" <b>Incorrect Attempts: </b>"+q3wrong+"</html>");
-
-			panel.setBackground(newColor);
-			panel.add(name);
-			add(panel);
-		}
-		else {
-
-			question = new JTextArea("Question 3");
-			add(question, BorderLayout.NORTH);
-			question.setEditable(false);
-
-			Color newColor = new Color(205, 85, 90);
-
-			JLabel prompt = new JLabel("What is the access time for a linked list?");
-			prompt.setHorizontalAlignment(JLabel.CENTER);
-
-			b1 = new JButton("O(1)");
-			b2 = new JButton("O(n)");
-			b3 = new JButton("O(n^2)");
-
-			panel.add(prompt, gbc);
-			panel.add(b1, gbc);
-			panel.add(b2, gbc);
-			panel.add(b3, gbc);
-
-			panel.setBackground(newColor);
-
-			b1.addActionListener(this);
-			b2.addActionListener(this);
-			b3.addActionListener(this);
-
-			add(panel);
-		}
-		}
-
-		if (state == 4)
-		{
-			removeAll();
-			if(question4complete == true) {
-				question = new JTextArea("Question 4");
+			if(question1complete == true) {
+				question = new JTextArea("Question 1");
 				add(question, BorderLayout.NORTH);
 				Color newColor = new Color(165, 200, 180);
-
-				JLabel name = new JLabel("<html> <b>Correct Attempts: </b>" + q4correct + " <b>Incorrect Attempts: </b>" + q4wrong + "</html>");
-
+				
+				JLabel name = new JLabel("<html> <b>Correct Attempts: </b>"+q1correct+"<b>Incorrect Attempts: </b>"+q1wrong+"</html>");
+				
 				panel.setBackground(newColor);
 				panel.add(name);
 				add(panel);
 			}
-			else {
-
-			Color newColor = new Color(180, 200, 220);
-
-			question = new JTextArea("Question 4");
-			add(question, BorderLayout.NORTH);
-			question.setEditable(false);
-
-			JMenuBar menubar = new JMenuBar();
-			JMenu menu = new JMenu("_______");
-
-			item1 = new JMenuItem(".length");
-			item2 = new JMenuItem(".size()");
-			item3 = new JMenuItem(".length()");
-
-			menu.add(item1);
-			menu.add(item2);
-			menu.add(item3);
-
-			menubar.add(menu);
-			panel.add(menubar);
-			panel.setBackground(newColor);
-			add(panel, BorderLayout.CENTER);
-
-			item1.addActionListener(this);
-			item2.addActionListener(this);
-			item3.addActionListener(this);
-			}
+			else{
+				//new MultipleMultipleChoice(JPanel otherpanel,String Question, String choices[],int answers[]){
+				String choices[]= {"cout<< 'hello world' ","public static class {}","switch(i) {case0: return 1;default: break;}"};
+				int answers[]= {0,0,1};
+				q2 = new MultipleMultipleChoice(new SimpleQuestion(),"Which are valid java statements?",choices,answers);
+				add(q2);
+				
+				}
 		}
+		
+		if (state == 4){
+			
+			this.removeAll();
+			if(question1complete == true) {
+				question = new JTextArea("Question 1");
+				add(question, BorderLayout.NORTH);
+				Color newColor = new Color(165, 200, 180);
+				
+				JLabel name = new JLabel("<html> <b>Correct Attempts: </b>"+q1correct+"<b>Incorrect Attempts: </b>"+q1wrong+"</html>");
+				
+				panel.setBackground(newColor);
+				panel.add(name);
+				add(panel);
+			}
+			else{
+				//new MultipleMultipleChoice(JPanel otherpanel,String Question, String choices[],int answers[]){
+				String choices[]= {".length",".size()",".length()"};
+				int answers[]= {0,0,1};
+				q4 = new MultipleChoice(new SimpleQuestion(),"The number of elements in an ArrayList is returned by ArrayList_______ .",choices,answers);
+				add(q4);
+				
+				}		
+			}
 	 }
+		
+
+
 
 	@Override
 	public void onLogout() {
@@ -330,7 +196,6 @@ public class Assessor extends TutoringPanel implements ActionListener
 	public void onSave() {
 
 	}
-
 	/*
 	 * Handles buttons, items, and checkboxes being selected.
 	 * Creates a pop-up of what was pressed.
@@ -338,6 +203,11 @@ public class Assessor extends TutoringPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		Object source = e.getSource();
+		
+		//depricated and totally unnecessary. Commented as a courtesy.
+		
+		/*
+		 * Object source = e.getSource();
 
 		if (source == item1 || source == item3) {
 			JOptionPane.showMessageDialog(panel, "Wrong Answer!");
@@ -361,11 +231,9 @@ public class Assessor extends TutoringPanel implements ActionListener
 		if (source == b2 || source == b3) {
 			JOptionPane.showMessageDialog(panel,"Wrong Choice!");
 			q3wrong++;}
-
-
+		 * */
 		update(state);
 		revalidate();
-		repaint();
-
+		repaint();		
 	}
 }

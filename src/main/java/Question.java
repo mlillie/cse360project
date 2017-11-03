@@ -19,7 +19,9 @@ public interface Question {
 	public boolean isComplete();
 	public int getAttempts();
 	public boolean checkanswer();
-	void addtopanel(Component c);
+	void addtoQuestion(Component c);
+	void setAttempt(int answerKey);
 	void setAnswer(int answerKey);
+	void setQuestion(String question);
 }
 
