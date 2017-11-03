@@ -19,14 +19,16 @@ import javax.swing.JTextArea;
  * @author Seth Turnage
  * @serial 1L
  * @class SimpleQuestion:
- * -implements Question interface and extends JPanel
+* @class MultipleChoice:
+ * -Inherits Decorator and adds fill-in-the-blank functionality.
  * 
  * 
  * 					            | Component |<-----------------|
  * 						            /    \                     |
  *	 		  | Concrete Component |  |  Decorator  |<>------| 
- *                                             |
- *                                    |* Concrete Decorator *|
+ *                                           		  |
+ *                                  		  |* Concrete Decorator *|
+ * 
  * 
  */
 public class Fillintheblank extends QuestionDecorator implements FocusListener{
