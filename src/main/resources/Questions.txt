@@ -1,0 +1,12 @@
+What type is returned by “>”, “<” and “=” operators?%int,String,boolean%boolean/
+What keyword is used in java to create an object?%abstract,new,this%new/
+What is the range of short data type?%-128 to 127,0 to 255,-32,768 to 32,767%-32,768 to 32,767/
+What is the return type of a method that does not returns any value?%void,int,boolean%void/
+Which String method is used to compare two String objects for equality?%equals(),is(),match()%equals()/
+Which of these keyword must be used to inherit a class?%this,extends,super%extends/
+What is the range of byte?%-128 to 127,0 to 255,-32,768 to 32,767%-128 to 127/
+What values can a boolean variable NOT contain?%an integer value,true,false%an integer value/
+What does GUI stand for?% %graphical user interface/
+Which are valid java statements?%cout<< 'hello world';,public static class {};,switch(i) {case0: return 1;default: break;};%switch(i) {case0: return 1;default: break;};/
+What is the file extension for a java file?% %.java/
+What is the access time for a linked list?%O(1),O(n),O(n^2)%O(n)/
