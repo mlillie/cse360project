@@ -98,7 +98,7 @@ public class Universe extends JFrame implements ChangeListener {
         userMenu.add(classroom);
 
         JMenuItem loadItem = new JMenuItem("Load");
-        //fileMenu.add(loadItem);
+        fileMenu.add(loadItem);
 
         JMenuItem saveItem = new JMenuItem("Save");
         //fileMenu.add(saveItem);
@@ -118,7 +118,7 @@ public class Universe extends JFrame implements ChangeListener {
 
         //If load is clicked, then we will want to attempt to load an assignment?
         loadItem.addActionListener(e -> {
-            //TODO
+            SwingUtilities.invokeLater(InstructorsAssignments::new);
         });
         
         //If help is clicked, a new instance of EmailSystem is initialized.
