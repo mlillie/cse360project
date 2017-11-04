@@ -1,3 +1,3 @@
-Name: Assignment4
+Name: Alphabetically
 Deadline: 12/20/2017
 Points: 50
