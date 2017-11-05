@@ -29,7 +29,7 @@ public class ControlCenter {
         incorrectAnswers = new int[NUMBER_OF_LESSONS];
         stopwatches = new Stopwatch[NUMBER_OF_LESSONS];
         for(int i = 0; i < NUMBER_OF_LESSONS; i ++) {
-            stopwatches[i] = new Stopwatch(TimeUnit.SECONDS);
+            stopwatches[i] = new Stopwatch(TimeUnit.MILLISECONDS);
         }
     }
 
@@ -90,13 +90,13 @@ public class ControlCenter {
         }
 
         if(totalWrong > totalCorrect) { // More wrong than correct
-            if(totalTime > 300) { // 5 minutes in seconds
+            if(totalTime > 300000) { // 5 minutes in ms
                 return StudentStatus.WORRIED;
             } else {
                 return StudentStatus.SORRY;
             }
         } else if(totalWrong < totalCorrect) { // More correct than wrong
-            if(totalTime > 300) { // 5 minutes in seconds
+            if(totalTime > 300000) { // 5 minutes in ms
                 return StudentStatus.THINKING;
             } else {
                 return StudentStatus.HAPPY;
@@ -124,8 +124,8 @@ public class ControlCenter {
 
         //Variables
         final TimeUnit timeUnit;
-        boolean running = false;
-        long startTime = 0, endTime = 0;
+        boolean running = false, paused = false;
+        long startTime = 0, endTime = 0, pauseTime = 0;
 
         /**
          * Stopwatch constructor, takes in the time unit to be measured in.
@@ -143,6 +143,7 @@ public class ControlCenter {
                 return;
             }
             this.running = true;
+            this.paused = false;
             this.startTime = System.currentTimeMillis();
         }
 
@@ -153,16 +154,28 @@ public class ControlCenter {
             if(!running) {
                 return;
             }
-            this.running = false;
+            this.running = this.paused = false;
             this.endTime = System.currentTimeMillis();
+        }
+
+        /**
+         * Pauses the stopwatch.
+         */
+        public void pause() {
+            if(!running || paused) {
+                return;
+            }
+            this.running = false;
+            this.paused = true;
+            this.pauseTime = System.currentTimeMillis();
         }
 
         /**
          * Resets the stopwatch.
          */
         public void reset() {
-            this.running = false;
-            this.endTime = this.startTime = 0;
+            this.running = this.paused = false;
+            this.endTime = this.pauseTime = this.startTime = 0;
         }
 
         /**
@@ -171,9 +184,9 @@ public class ControlCenter {
          */
         public long elapsedTime() {
             if(!running) {
-                return TimeUnit.MILLISECONDS.convert(endTime - startTime, timeUnit);
+                return timeUnit.convert((paused ? pauseTime : endTime) - startTime, TimeUnit.MILLISECONDS);
             }
-            return TimeUnit.MILLISECONDS.convert(System.currentTimeMillis() - startTime, timeUnit);
+            return timeUnit.convert(System.currentTimeMillis() - startTime, TimeUnit.MILLISECONDS);
         }
     }
 
