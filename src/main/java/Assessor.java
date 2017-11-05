@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
+//import javax.swing.border.TitledBorder;
 
 
 /**
@@ -82,7 +82,10 @@ public class Assessor extends TutoringPanel implements ActionListener
 	@Override
 	 public void update(int state)
 	 {
-		 
+		q1.pause();
+		q2.pause();
+		q3.pause();
+		q4.pause();
 		//Current state of slider
 		Assessor.state = state;
 		
@@ -95,35 +98,20 @@ public class Assessor extends TutoringPanel implements ActionListener
 						layout.show(this, "Question 1");
 						q1.unpause();
 						
-						q2.pause();
-						q3.pause();
-						q4.pause();
 						break;
 					case 2:
 						layout.show(this, "Question 2");
 						q2.unpause();
 						
-						q1.pause();
-						
-						q3.pause();
-						q4.pause();
 						break;
 					case 3:
 						layout.show(this, "Question 3");
 						q3.unpause();
 						
-						q1.pause();
-						q2.pause();
-					
-						q4.pause();
 						break;
 					case 4:
 						layout.show(this, "Question 4");
 						q4.unpause();
-						
-						q1.pause();
-						q2.pause();
-						q3.pause();
 						
 						break;
 					default:
@@ -163,7 +151,7 @@ public class Assessor extends TutoringPanel implements ActionListener
 		q2attempts = q2.getAttempts();
 		q3attempts = q3.getAttempts();
 		q4attempts = q4.getAttempts();
-
+			
 		/*
 		 *-Logic to set the totalcorrect integer.
 		 */
