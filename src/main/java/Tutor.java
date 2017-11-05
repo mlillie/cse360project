@@ -53,6 +53,10 @@ public class Tutor extends TutoringPanel {
 			case 2:
 			case 3:
 			case 4:
+			case 5:
+			case 6:
+			case 7:
+			case 8:
 				layout.show(this, "HTML Panel");
 				display_HTML("P"+state+".html");
 				break;

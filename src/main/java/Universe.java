@@ -209,7 +209,7 @@ public class Universe extends JFrame implements ChangeListener {
 
         
         // Slider object used to update the panels, will have 5 options (0, 1, 2, 3, 4), defaulted to 0.
-        JSlider stateSlider = new JSlider(0, 4, 0);
+        JSlider stateSlider = new JSlider(0, 8, 0);
         stateSlider.addChangeListener(this);
         stateSlider.setMajorTickSpacing(1);
         stateSlider.setPaintTicks(true);
