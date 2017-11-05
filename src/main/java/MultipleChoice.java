@@ -70,6 +70,18 @@ public class MultipleChoice extends QuestionDecorator implements ActionListener{
 		}
 		setAttempt(parseMultipleChoiceFromArray(answers));
 	}	
+	
+	@Override 
+	public void pause() {
+		super.pause();
+	}
+	
+	@Override
+	public void unpause() {
+		super.unpause();
+	}
+
+	
 }
 
 	

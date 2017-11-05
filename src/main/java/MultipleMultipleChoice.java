@@ -65,7 +65,19 @@ public class MultipleMultipleChoice extends QuestionDecorator implements ActionL
 			}
 		}
 		setAttempt(parseMultipleChoiceFromArray(answers));
-	}	
+	}
+
+	@Override 
+	public void pause() {
+		super.pause();
+	}
+	
+	@Override
+	public void unpause() {
+		super.unpause();
+	}
+
+
 }
 
 	

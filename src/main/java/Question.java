@@ -23,5 +23,7 @@ public interface Question {
 	void setAttempt(int answerKey);
 	void setAnswer(int answerKey);
 	void setQuestion(String question);
+	public void pause();
+	public void unpause();
 }
 

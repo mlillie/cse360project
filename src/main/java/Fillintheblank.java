@@ -58,7 +58,10 @@ public class Fillintheblank extends QuestionDecorator implements FocusListener{
 	}
 	@Override
 	public void focusGained(FocusEvent arg0) {
-		// TODO Auto-generated method stub
+		/**
+		 * 1. trims down whitespace
+		 * 2. grades what remains 
+		 */		
 		String y = jArea.getText();
 		y.replaceAll("\\s+"," ");
 		y.trim();
@@ -72,7 +75,10 @@ public class Fillintheblank extends QuestionDecorator implements FocusListener{
 	}
 	@Override
 	public void focusLost(FocusEvent arg0) {
-		// TODO Auto-generated method stub
+		/**
+		 * 1. trims down whitespace
+		 * 2. grades what remains 
+		 */
 		String y = jArea.getText();
 		y.replaceAll("\\s+"," ");
 		y = y.trim();
@@ -85,6 +91,15 @@ public class Fillintheblank extends QuestionDecorator implements FocusListener{
 		}
 	}
 
+	@Override 
+	public void pause() {
+		super.pause();
+	}
+	
+	@Override
+	public void unpause() {
+		super.unpause();
+	}
 
 	
 }

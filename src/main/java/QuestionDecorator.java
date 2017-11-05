@@ -61,6 +61,15 @@ public abstract class QuestionDecorator extends JPanel implements Question{
 	public void setAttempt(int answerKey) {
 		((Question) questiontobedecorated).setAttempt(answerKey);
 	}
+	
+	public void pause() {
+		((Question) questiontobedecorated).pause();
+	}
+	
+	public void unpause() {
+		((Question) questiontobedecorated).unpause();
+	}
+	
 	/**
 	 * Utility function to help parse arrays of answers into a unique integer.
 	 * 

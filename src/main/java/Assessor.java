@@ -69,6 +69,10 @@ public class Assessor extends TutoringPanel implements ActionListener
 		q4 = new MultipleChoice(new SimpleQuestion(),"The number of elements in an ArrayList is returned by ArrayList_______ .",choices4,answers4);
 		add(q4, "Question 4");
 		
+		q1.pause();
+		q2.pause();
+		q3.pause();
+		q4.pause();
 	}
 	
 	/**
@@ -89,15 +93,38 @@ public class Assessor extends TutoringPanel implements ActionListener
 						break;
 					case 1:
 						layout.show(this, "Question 1");
+						q1.unpause();
+						
+						q2.pause();
+						q3.pause();
+						q4.pause();
 						break;
 					case 2:
 						layout.show(this, "Question 2");
+						q2.unpause();
+						
+						q1.pause();
+						
+						q3.pause();
+						q4.pause();
 						break;
 					case 3:
 						layout.show(this, "Question 3");
+						q3.unpause();
+						
+						q1.pause();
+						q2.pause();
+					
+						q4.pause();
 						break;
 					case 4:
 						layout.show(this, "Question 4");
+						q4.unpause();
+						
+						q1.pause();
+						q2.pause();
+						q3.pause();
+						
 						break;
 					default:
 						System.out.println("Invalid state sent to Assessor");
@@ -136,7 +163,7 @@ public class Assessor extends TutoringPanel implements ActionListener
 		q2attempts = q2.getAttempts();
 		q3attempts = q3.getAttempts();
 		q4attempts = q4.getAttempts();
-				
+
 		/*
 		 *-Logic to set the totalcorrect integer.
 		 */

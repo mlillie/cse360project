@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 
@@ -30,12 +32,17 @@ public class SimpleQuestion extends JPanel implements Question {
 	private static final long serialVersionUID = 1L;
 	private JButton submitButton;
 	private int attempts;
+	private long starttime, pausedtime = 0;
 	private JPanel questionPanel;
 	protected boolean complete;
 	protected int answerKey = 0;
-	protected int currentAnswer = 0;
+	protected int currentAnswer = -1;
+	
 	
 	public SimpleQuestion() {
+		
+		starttime =  System.nanoTime();
+		
 		attempts = 0;
 		complete = false;
 		setLayout(new BorderLayout());
@@ -62,6 +69,18 @@ public class SimpleQuestion extends JPanel implements Question {
 		this.answerKey = Answer;
 	}
 	
+	@Override
+	public void pause() {
+		pausedtime =  System.nanoTime();
+	}
+	
+	@Override
+	public void unpause() {
+	    starttime += pausedtime-starttime;
+	    pausedtime = 0;
+	}
+	
+	
 	public void setAttempt(int Answer) {
 		this.currentAnswer = Answer;
 	}
@@ -76,21 +95,21 @@ public class SimpleQuestion extends JPanel implements Question {
 	
 
 	
-	@Override
+
 	public boolean isComplete() {
 		return complete;
 	}
 
-	@Override
+
 	public int getAttempts() {
 		return attempts;
 	}
 
 	@Override
 	public boolean checkanswer() {
-		if (answerKey == currentAnswer) {
+		if (answerKey == currentAnswer && complete == false) {
 			complete = true;
-			submitButton.setText("complete");
+			submitButton.setText("complete in "+ (TimeUnit.NANOSECONDS.toSeconds(System.nanoTime()-starttime))+ " seconds");
 			submitButton.setBackground(Color.green);
 		}
 		return (answerKey == currentAnswer);
