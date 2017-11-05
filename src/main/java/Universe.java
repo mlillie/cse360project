@@ -18,6 +18,7 @@ import java.util.List;
  * @author Matt Lillie
  * @version 10/10/2017
  */
+
 public class Universe extends JFrame implements ChangeListener {
 
     /**
@@ -149,8 +150,10 @@ public class Universe extends JFrame implements ChangeListener {
         add(menuBar, BorderLayout.NORTH);
 
         // This middle panel will contain the other 4 panels within it.
-        JPanel middlePanel = new JPanel(new GridLayout(2, 2));
-
+        GridBagLayout grid = new GridBagLayout();
+        JPanel middlePanel = new JPanel(grid);
+                
+        
         // Create all the other panels with new anim
         TutoringPanel firstPanel = new AnimatedCompanion();
         firstPanel.setBorder(PANEL_BORDER);
@@ -165,12 +168,46 @@ public class Universe extends JFrame implements ChangeListener {
         fourthPanel.setBorder(PANEL_BORDER);
 
         // Add the panels to the list and add all the panels to the middle panel
+        
+        
         tutoringPanels.add(firstPanel);
         tutoringPanels.add(secondPanel);
         tutoringPanels.add(thirdPanel);
-        tutoringPanels.add(fourthPanel);
-        tutoringPanels.forEach(middlePanel::add);
+        
+        //tutoringPanels.add(fourthPanel);
+        
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 0.5;
+        c.weighty = 1.0;
+        c.gridwidth = 2;                
+        c.gridheight = 2;
+        
+        
+        middlePanel.add(firstPanel,c);
+        
+        GridBagConstraints a = new GridBagConstraints();
+        a.fill = GridBagConstraints.BOTH;
+        a.weightx = 1.0;
+        a.weighty = 1.0;
+        a.gridwidth = 2;                
+        a.gridheight = 2;
+        a.gridheight = GridBagConstraints.REMAINDER;
+        middlePanel.add(secondPanel,a);
+        c.gridheight = 1;
+        c.gridheight = GridBagConstraints.REMAINDER;
+        
+        GridBagConstraints b = new GridBagConstraints();
+        b.fill = GridBagConstraints.BOTH;
+        b.weightx = 0.5;
+        b.weighty = 1.0;
+        b.gridwidth = 2;                
+        b.gridheight = 2;
+        b.gridx = 0;
+        b.gridy = GridBagConstraints.RELATIVE;
+        middlePanel.add(thirdPanel,b);
 
+        
         // Slider object used to update the panels, will have 5 options (0, 1, 2, 3, 4), defaulted to 0.
         JSlider stateSlider = new JSlider(0, 4, 0);
         stateSlider.addChangeListener(this);
