@@ -86,8 +86,8 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
      * Moves the image by updating its x and y position on the panel.
      */
     private void moveImage() {
-    	int totalCorrect = Assessor.q1correct + Assessor.q2correct + Assessor.q3correct + Assessor.q4correct;
-        int totalWrong = Assessor.q1wrong + Assessor.q2wrong + Assessor.q3wrong + Assessor.q4wrong;
+    	int totalCorrect = Assessor.totalcorrect;
+        int totalWrong = Assessor.q1attempts + Assessor.q2attempts + Assessor.q3attempts + Assessor.q4attempts;
         
         if (panelState == 0) {
             return;
@@ -131,8 +131,8 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
         graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
         
-        int totalCorrect = Assessor.q1correct + Assessor.q2correct + Assessor.q3correct + Assessor.q4correct;
-        int totalWrong = Assessor.q1wrong + Assessor.q2wrong + Assessor.q3wrong + Assessor.q4wrong;
+        int totalCorrect = Assessor.totalcorrect;
+        int totalWrong = Assessor.q1attempts + Assessor.q2attempts + Assessor.q3attempts + Assessor.q4attempts;
         
         //draw whichever image at the updated x and y positions
         graphics2D.drawImage(
