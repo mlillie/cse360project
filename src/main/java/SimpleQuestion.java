@@ -116,6 +116,7 @@ public class SimpleQuestion extends JPanel implements Question {
 			secondsSpent %= 60;
 			submitButton.setText("Completed in "+ minutesSpent + ":" + secondsSpent + ":" + msSpent);
 			submitButton.setBackground(Color.GREEN);
+			ControlCenter.getInstance().updateImage();
 		} else if(answerKey != currentAnswer) {
 			ControlCenter.getInstance().getIncorrectAnswers()[getQuestionId()]++;
 		}
