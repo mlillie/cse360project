@@ -23,6 +23,10 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
 
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8987772564863058170L;
+	/**
      * All the different variables being used.
      */
     private final static int WIDTH = 150, HEIGHT = 150;
@@ -87,7 +91,7 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
      */
     private void moveImage() {
     	int totalCorrect = Assessor.totalcorrect;
-        int totalWrong = Assessor.q1attempts + Assessor.q2attempts + Assessor.q3attempts + Assessor.q4attempts;
+        int totalWrong = Assessor.q1attempts + Assessor.q2attempts + Assessor.q3attempts + Assessor.q4attempts + Assessor.q5attempts + Assessor.q6attempts + Assessor.q7attempts + Assessor.q8attempts;
         
         if (panelState == 0) {
             return;
@@ -132,7 +136,7 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
                 RenderingHints.VALUE_RENDER_QUALITY);
         
         int totalCorrect = Assessor.totalcorrect;
-        int totalWrong = Assessor.q1attempts + Assessor.q2attempts + Assessor.q3attempts + Assessor.q4attempts;
+        int totalWrong = Assessor.q1attempts + Assessor.q2attempts + Assessor.q3attempts + Assessor.q4attempts + Assessor.q5attempts+ Assessor.q6attempts+ Assessor.q7attempts+Assessor.q8attempts;
         
         //draw whichever image at the updated x and y positions
         graphics2D.drawImage(
