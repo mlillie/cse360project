@@ -166,6 +166,8 @@ public class Universe extends JFrame implements ChangeListener {
         TutoringPanel fourthPanel = new JavaCodeTester("Hello World");
         fourthPanel.setBorder(PANEL_BORDER);
 
+        ControlCenter.getInstance().addObserver((Observer)firstPanel);
+        
         // Add the panels to the list and add all the panels to the middle panel
         
         
