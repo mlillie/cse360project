@@ -26,16 +26,17 @@ import javax.swing.JPanel;
  *                                    | Concrete Decorator |
  * 
  */
+@SuppressWarnings("unused")
 public abstract class QuestionDecorator extends JPanel implements Question{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JScrollPane boxpane;
-	private JButton submitButton;
+	//private JScrollPane boxpane;
+	//private JButton submitButton;
 	protected int answerKey = 0;
 	protected int currentAnswer = 0;
-	private boolean complete = false;
+	//private boolean complete = false;
 	private JPanel questiontobedecorated;
 	
 	public QuestionDecorator(JPanel questiontobedecorated){
@@ -89,20 +90,17 @@ public abstract class QuestionDecorator extends JPanel implements Question{
 	
 	@Override 
 	public boolean isComplete() {
-		
-		return true;
+		return ((Question) questiontobedecorated).isComplete();
 	}
 	
 	@Override
 	public int getAttempts() {
-		
-		return 0;
+		return ((Question) questiontobedecorated).getAttempts();
 	}
 	
 	@Override
 	public boolean checkanswer() {
-		
-		return true;
+		return ((Question) questiontobedecorated).checkanswer();
 	}
 	
 

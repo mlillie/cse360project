@@ -7,9 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -33,7 +31,6 @@ public class SimpleQuestion extends JPanel implements Question {
 	private JButton submitButton;
 	private int attempts;
 	private long starttime, pausedtime = 0;
-	private JPanel questionPanel;
 	protected boolean complete;
 	protected int answerKey = 0;
 	protected int currentAnswer = -1;
