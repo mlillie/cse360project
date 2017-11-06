@@ -1,3 +1,4 @@
+import java.util.Observable;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -8,13 +9,15 @@ import java.util.concurrent.TimeUnit;
  * @author Matt Lillie
  * @version 10/29/2017
  */
-public class ControlCenter {
+public class ControlCenter extends Observable{
 
     //The control center instance.
     private static ControlCenter instance;
 
     //The total number of lessons there will be.
     public static int NUMBER_OF_LESSONS = 10; // TODO HOW MANY?
+    
+    int status;
 
     //The arrays associated with the lessons.
     private final int[] correctAnswers;
@@ -25,6 +28,7 @@ public class ControlCenter {
      * Constructs new ControlCenter and initializes variables
      */
     private ControlCenter() {
+    		status = 1;
         correctAnswers = new int[NUMBER_OF_LESSONS];
         incorrectAnswers = new int[NUMBER_OF_LESSONS];
         stopwatches = new Stopwatch[NUMBER_OF_LESSONS];
@@ -68,6 +72,7 @@ public class ControlCenter {
         return stopwatches;
     }
 
+    
     /**
      * Calculates the status of the student by going through each array and deciding whether or not the student is doing well or
      * not.
@@ -188,6 +193,22 @@ public class ControlCenter {
             }
             return timeUnit.convert(System.currentTimeMillis() - startTime, TimeUnit.MILLISECONDS);
         }
+        
+        
     }
+
+	public void updateImage() {
+		if (calculateStatus() == StudentStatus.HAPPY)
+			status = 1;
+		if (calculateStatus() == StudentStatus.THINKING)
+			status = 2;
+		if (calculateStatus() == StudentStatus.WORRIED)
+			status = 3;
+		if (calculateStatus() == StudentStatus.SORRY)
+			status = 4;
+		System.out.println(status);
+		setChanged();
+		notifyObservers(status);
+	}
 
 }
