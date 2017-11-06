@@ -41,13 +41,16 @@ public class Assessor extends TutoringPanel implements ActionListener
 	private Fillintheblank q1, q6;
 	private MultipleChoice q3, q7, q4;
 	private MultipleMultipleChoice q2, q5, q8;
-	
+	private ControlCenter controlcenter;
 	
 	/**
 	 * Creates panel and instantiates components
 	 */
 	public Assessor()
 	{	
+		//instantiate singleton controlcenter
+		controlcenter = ControlCenter.getInstance();
+		controlcenter.getStopwatches()[0].start();
 		
 		setLayout(new CardLayout());
 		//namelabel
@@ -213,12 +216,19 @@ public class Assessor extends TutoringPanel implements ActionListener
 		question7complete = q7.isComplete();
 		question8complete = q8.isComplete();
 		q1attempts = q1.getAttempts();
+		
 		q2attempts = q2.getAttempts();
+		
 		q3attempts = q3.getAttempts();
+		
 		q4attempts = q4.getAttempts();
+		
 		q5attempts = q5.getAttempts();
+		
 		q6attempts = q6.getAttempts();
+		
 		q7attempts = q7.getAttempts();
+		
 		q8attempts = q8.getAttempts();
 		/*
 		 *-Logic to set the totalcorrect integer.
@@ -233,6 +243,10 @@ public class Assessor extends TutoringPanel implements ActionListener
 			if(question7complete) {temptotal++;}
 			if(question8complete) {temptotal++;}
 		totalcorrect = temptotal;
+		
+		//simple controlcenter implementation
+		controlcenter.getCorrectAnswers()[0] = totalcorrect;
+		if (totalcorrect == 8) {controlcenter.getStopwatches()[0].stop();}
 		
 		update(state);
 		revalidate();
