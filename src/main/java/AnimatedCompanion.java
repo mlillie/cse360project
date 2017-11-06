@@ -36,7 +36,7 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
     private final static JLabel AUTHORS_LABEL = new JLabel("<html> <b>Companion: </b> <br> <i>Images by</i>: Ashley Goernitz <br> <i>Animated by</i>: Matt Lillie</html>",
             SwingConstants.CENTER);
     private BufferedImage happyImage, sorryImage, thinkingImage, worriedImage;
-    private int panelState = 0;
+    private int panelState = 0, imageState;
     private int x = 0, y = 0;
     private int originX = 0, originY = 0;
     private double theta = 0, radius = 22;
@@ -121,6 +121,16 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
 
     }
 
+    	private BufferedImage setImage(int state)
+    	{
+    		if (state == 1)
+    			return happyImage;
+    		if (state == 2)
+    			return thinkingImage;
+    		if (state == 3)
+    			return worriedImage;
+    		return sorryImage;
+    	}
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
@@ -141,11 +151,11 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
         int totalWrong = Assessor.q1attempts + Assessor.q2attempts + Assessor.q3attempts + Assessor.q4attempts + Assessor.q5attempts+ Assessor.q6attempts+ Assessor.q7attempts+Assessor.q8attempts;
         
         //draw whichever image at the updated x and y positions
-        graphics2D.drawImage(
-                totalCorrect == totalWrong ? thinkingImage :
-                        totalCorrect > totalWrong ? happyImage :
-                                totalCorrect < totalWrong && totalCorrect == 0 ? sorryImage :
-                                        totalCorrect < totalWrong ? worriedImage : null
+        graphics2D.drawImage(setImage(this.imageState)
+                // == totalWrong ? thinkingImage :
+                        // > totalWrong ? happyImage :
+                                //totalCorrect < totalWrong && totalCorrect == 0 ? sorryImage :
+                                    //    totalCorrect < totalWrong ? worriedImage : null
                 , x, y, WIDTH, HEIGHT, this);
 
         graphics2D.dispose();
@@ -202,6 +212,8 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
 
     @Override
     public void update(Observable o, Object arg) {
-
+    		System.out.println(arg);
+    		imageState = (int) arg;
+  
     }
 }
