@@ -6,6 +6,8 @@ import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
 /**
@@ -19,7 +21,7 @@ import java.util.Random;
  * @author Matt Lillie, Ashley Goernitz (Edits)
  * @version 10/11/2017
  */
-public class AnimatedCompanion extends TutoringPanel implements ComponentListener {
+public class AnimatedCompanion extends TutoringPanel implements ComponentListener, Observer {
 
 
     /**
@@ -195,6 +197,11 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
 
     @Override
     public void componentHidden(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
 
     }
 }

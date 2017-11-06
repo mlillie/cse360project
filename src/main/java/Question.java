@@ -25,5 +25,6 @@ public interface Question {
 	void setQuestion(String question);
 	public void pause();
 	public void unpause();
+	public int getQuestionId();
 }
 

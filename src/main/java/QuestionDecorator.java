@@ -86,8 +86,13 @@ public abstract class QuestionDecorator extends JPanel implements Question{
 		
 		return returnedInteger;
 	}
-	
-	
+
+
+	@Override
+	public int getQuestionId() {
+		return ((Question) questiontobedecorated).getQuestionId();
+	}
+
 	@Override 
 	public boolean isComplete() {
 		return ((Question) questiontobedecorated).isComplete();

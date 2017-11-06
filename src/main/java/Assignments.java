@@ -294,8 +294,7 @@ public class Assignments extends JPanel implements ActionListener {
 				System.out.println(originalList.get(i));
 			}
 			assignmentModel.removeAllElements();
-			for (int i = 0; i < originalList.size(); i++)
-			{
+			for (int i = 0; i < originalList.size(); i++) {
 				assignmentModel.addElement(originalList.get(i));
 			}
 			return false;

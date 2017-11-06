@@ -152,8 +152,7 @@ public class Universe extends JFrame implements ChangeListener {
         // This middle panel will contain the other 4 panels within it.
         GridBagLayout grid = new GridBagLayout();
         JPanel middlePanel = new JPanel(grid);
-                
-        
+
         // Create all the other panels with new anim
         TutoringPanel firstPanel = new AnimatedCompanion();
         firstPanel.setBorder(PANEL_BORDER);
@@ -164,7 +163,7 @@ public class Universe extends JFrame implements ChangeListener {
         TutoringPanel thirdPanel = new Assessor();
         thirdPanel.setBorder(PANEL_BORDER);
 
-        TutoringPanel fourthPanel = new JavaCodeTester();
+        TutoringPanel fourthPanel = new JavaCodeTester("Hello World");
         fourthPanel.setBorder(PANEL_BORDER);
 
         // Add the panels to the list and add all the panels to the middle panel

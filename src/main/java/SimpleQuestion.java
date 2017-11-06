@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.naming.ldap.Control;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -30,15 +31,14 @@ public class SimpleQuestion extends JPanel implements Question {
 	private static final long serialVersionUID = 1L;
 	private JButton submitButton;
 	private int attempts;
-	private long starttime, pausedtime = 0;
 	protected boolean complete;
 	protected int answerKey = 0;
 	protected int currentAnswer = -1;
+	protected final int questionId;
 	
 	
-	public SimpleQuestion() {
-		
-		starttime =  System.nanoTime();
+	public SimpleQuestion(int questionId) {
+		this.questionId = questionId;
 		
 		attempts = 0;
 		complete = false;
@@ -68,16 +68,20 @@ public class SimpleQuestion extends JPanel implements Question {
 	
 	@Override
 	public void pause() {
-		pausedtime =  System.nanoTime();
+		ControlCenter.getInstance().getStopwatches()[getQuestionId()].stop();
 	}
 	
 	@Override
 	public void unpause() {
-	    starttime += pausedtime-starttime;
-	    pausedtime = 0;
+		ControlCenter.getInstance().getStopwatches()[getQuestionId()].start();
 	}
-	
-	
+
+	@Override
+	public int getQuestionId() {
+		return questionId;
+	}
+
+
 	public void setAttempt(int Answer) {
 		this.currentAnswer = Answer;
 	}
@@ -89,25 +93,31 @@ public class SimpleQuestion extends JPanel implements Question {
 	public void addtoQuestion(Component c) {
 		add(c, BorderLayout.CENTER);
 	}
-	
-
-	
 
 	public boolean isComplete() {
 		return complete;
 	}
 
-
 	public int getAttempts() {
-		return attempts;
+		return ControlCenter.getInstance().getCorrectAnswers()[getQuestionId()] +
+				ControlCenter.getInstance().getIncorrectAnswers()[getQuestionId()];
 	}
 
 	@Override
 	public boolean checkanswer() {
 		if (answerKey == currentAnswer && complete == false) {
 			complete = true;
-			submitButton.setText("complete in "+ (TimeUnit.NANOSECONDS.toSeconds(System.nanoTime()-starttime))+ " seconds");
-			submitButton.setBackground(Color.green);
+			ControlCenter.getInstance().getStopwatches()[getQuestionId()].stop();
+			ControlCenter.getInstance().getCorrectAnswers()[getQuestionId()]++;
+			long msSpent = ControlCenter.getInstance().getStopwatches()[getQuestionId()].elapsedTime();
+			long secondsSpent = msSpent / 1000;
+			msSpent %= 1000;
+			long minutesSpent = secondsSpent / 60;
+			secondsSpent %= 60;
+			submitButton.setText("Completed in "+ minutesSpent + ":" + secondsSpent + ":" + msSpent);
+			submitButton.setBackground(Color.GREEN);
+		} else if(answerKey != currentAnswer) {
+			ControlCenter.getInstance().getIncorrectAnswers()[getQuestionId()]++;
 		}
 		return (answerKey == currentAnswer);
 	}
