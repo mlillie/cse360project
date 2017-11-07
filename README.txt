@@ -15,6 +15,7 @@
   - edited the AnimatedCompanion class and added a variable that has the total number of correct answers and incorrect answers.
   - Then using this, I edit the graphics2D.DrawImage to draw a different image depending on the number of correct and incorrect answers
   - Also edited the MoveImage() method so that the image goes in a circle if the total number of correct answers is less than the total number of incorrect answers
+  -Decorator pattern implemented. This adds text to the Companion panel based on student performance
   
 -Instructor's Classroom can be launched through the Classroom option in the menu
   - Will only be accessible to instructors
