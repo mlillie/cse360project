@@ -20,5 +20,11 @@
 -Instructor's Classroom can be launched through the Classroom option in the menu
   - Will only be accessible to instructors
   - List of premade assignments are loaded from a folder under resources
-    - Instructor will be able to change assignment deadline and total points
+    - Instructor will be able to change assignment deadline, name, total points
+    - Instructor wil be able to sort the assignments based on name
   - List of questions that will be used for assessments will be loaded from a text file under resources and displayed 
+
+-Instructor's Assignments can be launched through the Load option in the menu bar
+    - Questions will be chosen randomly from a file under resources
+    - Instructor will be able to see and answer the questions
+    - Score or time will not be counted
