@@ -2,10 +2,12 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
+* the basic companion text which is to be decorated 
+*  Rec Project 4
+*
 * @author Ashley Goernitz
 * @interface Companion:
 * @version 11/6/17
-* the basic companion text which is to be decorated 
 */
 
 public class BasicCompanion implements Companion {
