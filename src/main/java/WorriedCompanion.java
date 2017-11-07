@@ -2,10 +2,12 @@ import java.awt.FlowLayout;
 import javax.swing.*;
 
 /**
+* used when student could be performing better. decorates BasicCompanion
+* Rec Project 4
+*
 * @author Ashley Goernitz
 * @interface Companion:
 * @version 11/6/17
-* used when student could be performing better. decorates BasicCompanion
 */
 
 //used when student isn't doing so well
