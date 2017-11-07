@@ -3,10 +3,12 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 /**
+* used when student incorrect answers = correct answers. decorates BasicCompanion
+* Rec Project 4
+*
 * @author Ashley Goernitz
 * @class ThinkingCompanion:
 * @version 11/6/17
-* used when student incorrect answers = correct answers. decorates BasicCompanion
 */
 
 public class ThinkingCompanion extends CompanionDecorator {
