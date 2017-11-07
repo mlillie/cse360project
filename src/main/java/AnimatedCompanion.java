@@ -18,9 +18,10 @@ import java.util.Random;
  * Ashley edited the move image method so that images would move in a fast circle only if the number of correct answers was 
  * less than the number of incorrect. Ashley also edited the graphics2D.drawImage method by having the method draw different 
  * images based on user performance.
+ * Rec Project 4
  *
- * @author Matt Lillie, Ashley Goernitz (Edits)
- * @version 10/11/2017
+ * @author Matt Lillie, Ashley Goernitz (Edits), Jacqueline Fonseca
+ * @version 11/6/2017
  */
 public class AnimatedCompanion extends TutoringPanel implements ComponentListener, Observer {
 
