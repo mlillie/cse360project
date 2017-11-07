@@ -2,10 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
+* used when student is performing well. decorates BasicCompanion
+* Rec Project 4
+*
 * @author Ashley Goernitz
 * @class GoodCompanion:
 * @version 11/6/17
-* used when student is performing well. decorates BasicCompanion
 */
 
 public class GoodCompanion extends CompanionDecorator {
