@@ -71,19 +71,19 @@ public class Assessor extends TutoringPanel implements ActionListener
 		
 		//question3, assembled from Question decorator pattern	
 		String choices3[]= {"O(1) ","O(n)","O(n^2)"};
-		int answers3[]= {1,0,0};
+		int answers3[]= {0,1,0};
 		q3 = new MultipleChoice(new SimpleQuestion(3),"What is the access time for a linked list?",choices3,answers3);
 		add(q3, "Question 3");
 
 		//question4, assembled from Question decorator pattern
 		String choices4[]= {".length",".size()",".length()"};
-		int answers4[]= {0,0,1};
+		int answers4[]= {0,1,0};
 		q4 = new MultipleChoice(new SimpleQuestion(4),"The number of elements in an ArrayList is returned by ArrayList_______ .",choices4,answers4);
 		add(q4, "Question 4");
 		
 		//question5, assembled from Question decorator pattern
 		String choices5[]= {"+","%","!","/","-"};
-		int answers5[]= {1,1,1,1,1};
+		int answers5[]= {1,1,0,1,1};
 		q5 = new MultipleMultipleChoice(new SimpleQuestion(5),"Which are valid arithmetic operators in java?",choices5,answers5);
 		add(q5,"Question 5");
 		
