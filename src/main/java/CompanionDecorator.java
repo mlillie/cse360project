@@ -1,10 +1,12 @@
 import javax.swing.*;
 
 /**
+* parent to the different decorators
+* Rec Project 4
+*
 * @author Ashley Goernitz
 * @class CompanionDecorator
 * @version 11/6/17
-* parent to the different decorators
 */
 
 public class CompanionDecorator implements Companion{
