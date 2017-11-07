@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
@@ -42,6 +43,7 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
     private double theta = 0, radius = 22;
     private int moveX = 0, moveY = 0;
     private AnimationTimer animationTimer;
+    
 
     /**
      * Creating AnimatedCompanion and instantiating certain variables.
@@ -120,7 +122,7 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
         }
 
     }
-
+    
     	private BufferedImage setImage(int state)
     	{
     		if (state == 1)
@@ -131,6 +133,7 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
     			return worriedImage;
     		return sorryImage;
     	}
+    
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
@@ -147,8 +150,8 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
         graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
         
-        int totalCorrect = Assessor.totalcorrect;
-        int totalWrong = Assessor.q1attempts + Assessor.q2attempts + Assessor.q3attempts + Assessor.q4attempts + Assessor.q5attempts+ Assessor.q6attempts+ Assessor.q7attempts+Assessor.q8attempts;
+        //int totalCorrect = Assessor.totalcorrect;
+        //int totalWrong = Assessor.q1attempts + Assessor.q2attempts + Assessor.q3attempts + Assessor.q4attempts + Assessor.q5attempts+ Assessor.q6attempts+ Assessor.q7attempts+Assessor.q8attempts;
         
         //draw whichever image at the updated x and y positions
         graphics2D.drawImage(setImage(this.imageState)
@@ -157,7 +160,6 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
                                 //totalCorrect < totalWrong && totalCorrect == 0 ? sorryImage :
                                     //    totalCorrect < totalWrong ? worriedImage : null
                 , x, y, WIDTH, HEIGHT, this);
-
         graphics2D.dispose();
     }
 
@@ -214,6 +216,46 @@ public class AnimatedCompanion extends TutoringPanel implements ComponentListene
     public void update(Observable o, Object arg) {
     		System.out.println(arg);
     		imageState = (int) arg;
+    		
+    		if(imageState == 1)//happy
+    		{
+    			removeAll();
+    			BasicCompanion basic = new BasicCompanion();
+    			GoodCompanion good = new GoodCompanion();
+    			good.add(basic);
+    			good.speak(this);
+    			revalidate();
+    			
+    		}
+    		if(imageState == 2)//thinking
+    		{
+    			removeAll();
+    			BasicCompanion basic = new BasicCompanion();
+    			ThinkingCompanion think = new ThinkingCompanion();
+    			think.add(basic);
+    			think.speak(this);
+    			revalidate();
+    		}
+    		if(imageState == 3)//worried
+    		{
+    			removeAll();
+    			BasicCompanion basic = new BasicCompanion();
+    			WorriedCompanion worry = new WorriedCompanion();
+    			worry.add(basic);
+    			worry.speak(this);
+    			revalidate();
+    		}
+    		if(imageState == 4)//sorry
+    		{
+    			removeAll();
+    			BasicCompanion basic = new BasicCompanion();
+    			BadCompanion bad = new BadCompanion();
+    			bad.add(basic);
+    			bad.speak(this);
+    			revalidate();
+
+    		}
   
     }
+    
 }
