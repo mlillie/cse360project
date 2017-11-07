@@ -3,10 +3,12 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 /**
+*  used when student is performing poorly
+*  Rec Project 4
+*
 * @author Ashley Goernitz
 * @class BadCompanion:
 * @version 11/6/17
-* used when student is performing poorly
 */
 
 //used when student is performing poorly
